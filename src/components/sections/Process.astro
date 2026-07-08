@@ -1,0 +1,45 @@
+---
+import Section from '../Section.astro';
+import SectionHeading from '../SectionHeading.astro';
+
+const steps = [
+  {
+    number: '01',
+    title: 'Private Consultation',
+    copy: 'We begin with a quiet conversation about the property, your expectations, seasonal patterns, and what matters most in how it is kept.',
+  },
+  {
+    number: '02',
+    title: 'Property Assessment',
+    copy: 'A careful review of the home, its systems, grounds, existing vendors, risks, and the recurring maintenance the property truly requires.',
+  },
+  {
+    number: '03',
+    title: 'Custom Management Plan',
+    copy: 'A tailored estate care plan covering inspections, maintenance, concierge needs, vendor coordination, and how you prefer to be kept informed.',
+  },
+  {
+    number: '04',
+    title: 'Ongoing Oversight',
+    copy: 'Steady communication, documented property updates, prompt issue resolution, and trusted local representation, season after season.',
+  },
+];
+---
+
+<Section id="process" class="bg-navy-deep py-24 text-pearl md:py-32 lg:py-40">
+  <SectionHeading number="06" tone="dark">
+    Order, from the first conversation.
+  </SectionHeading>
+
+  <ol class="mt-14 grid grid-cols-1 gap-x-6 gap-y-12 md:grid-cols-2 lg:mt-20 lg:grid-cols-4" data-reveal-group>
+    {
+      steps.map((step) => (
+        <li class="border-t border-pearl/20 pt-8" data-reveal-item>
+          <span class="font-serif text-4xl font-light text-gold-light">{step.number}</span>
+          <h3 class="mt-6 font-serif text-xl font-light text-pearl">{step.title}</h3>
+          <p class="mt-4 text-[0.9375rem] leading-relaxed text-pearl/60">{step.copy}</p>
+        </li>
+      ))
+    }
+  </ol>
+</Section>

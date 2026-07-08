@@ -1,0 +1,175 @@
+---
+import Section from '../Section.astro';
+import Button from '../Button.astro';
+import { SITE } from '../../site';
+import { SERVICES } from '../../data/services';
+
+// Mirror the service pages so their CTAs can preselect via ?service=<title>.
+const serviceOptions = [...SERVICES.map((s) => s.title), 'General Inquiry'];
+---
+
+<Section id="contact" class="bg-navy-deep py-24 text-pearl md:py-32 lg:py-40">
+  <div class="grid grid-cols-12 gap-x-6 gap-y-16" data-reveal>
+    <div class="col-span-12 flex flex-col justify-between gap-14 lg:col-span-5">
+      <div>
+        <h2 class="font-serif text-[clamp(2.125rem,4.2vw,3.5rem)] font-light leading-[1.08] tracking-[-0.015em]">
+          Request Private<br />Estate Support
+        </h2>
+        <p class="mt-8 max-w-sm font-serif text-lg font-light italic leading-relaxed text-gold-light">
+          From the shores of Hawaii to the hills of New Hampshire.
+        </p>
+        <p class="mt-6 max-w-sm text-[0.9375rem] leading-relaxed text-pearl/65">
+          Tell me about the property and what it requires. Every inquiry is read personally, answered promptly,
+          and held in confidence.
+        </p>
+      </div>
+
+      <div class="space-y-8">
+        <div>
+          <p class="field-label mb-3">Write to me directly</p>
+          <a
+            href={`mailto:${SITE.email}`}
+            class="group inline-block font-serif text-lg italic break-all text-pearl transition-colors duration-300 hover:text-gold-light md:text-xl"
+          >
+            {SITE.email}
+            <span class="mt-1 block h-px w-full bg-gold/60 transition-colors duration-300 group-hover:bg-gold-light"></span>
+          </a>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          <div>
+            <p class="field-label mb-3">Telephone</p>
+            <a
+              href={SITE.phoneHref}
+              class="font-serif text-lg italic text-pearl transition-colors duration-300 hover:text-gold-light"
+            >
+              {SITE.phone}
+            </a>
+          </div>
+          <div>
+            <p class="field-label mb-3">Address</p>
+            <p class="text-[0.9375rem] leading-relaxed text-pearl/75">
+              {SITE.address[0]}<br />{SITE.address[1]}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-12 border-t border-pearl/15 pt-14 lg:col-span-6 lg:col-start-7 lg:border-t-0 lg:pt-0">
+      <form id="inquiry-form" novalidate>
+        <!-- Honeypot: hidden from people, tempting to bots -->
+        <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+          <label for="inq-company">Company</label>
+          <input id="inq-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="grid grid-cols-1 gap-x-8 gap-y-9 sm:grid-cols-2">
+          <div>
+            <label for="inq-name" class="field-label mb-2">Name</label>
+            <input id="inq-name" name="name" type="text" class="field-input" autocomplete="name" required />
+          </div>
+          <div>
+            <label for="inq-email" class="field-label mb-2">Email</label>
+            <input id="inq-email" name="email" type="email" class="field-input" autocomplete="email" required />
+          </div>
+          <div>
+            <label for="inq-phone" class="field-label mb-2">Phone <span class="normal-case tracking-normal opacity-60">(optional)</span></label>
+            <input id="inq-phone" name="phone" type="tel" class="field-input" autocomplete="tel" />
+          </div>
+          <div>
+            <label for="inq-location" class="field-label mb-2">Property Location</label>
+            <input id="inq-location" name="location" type="text" class="field-input" placeholder="Town, state" />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="inq-service" class="field-label mb-2">Service Interest</label>
+            <select id="inq-service" name="service" class="field-input">
+              {serviceOptions.map((option) => <option value={option}>{option}</option>)}
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="inq-message" class="field-label mb-2">Message</label>
+            <textarea
+              id="inq-message"
+              name="message"
+              rows="4"
+              class="field-input resize-none"
+              placeholder="The property, its needs, and how we can help."></textarea>
+          </div>
+        </div>
+
+        <div class="mt-12 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <Button type="submit" variant="gold"><span data-submit-label>Send Private Inquiry</span></Button>
+          <p class="max-w-[16rem] text-xs leading-relaxed text-pearl/45">
+            Sent directly and in confidence. I read and answer every inquiry personally.
+          </p>
+        </div>
+
+        <p id="inquiry-status" role="status" aria-live="polite" class="mt-6 hidden text-[0.9375rem] leading-relaxed"></p>
+      </form>
+    </div>
+  </div>
+</Section>
+
+<script>
+  import { SITE } from '../../site';
+
+  const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
+  const status = document.getElementById('inquiry-status') as HTMLParagraphElement | null;
+  const submit = form?.querySelector<HTMLButtonElement>('button[type="submit"]') ?? null;
+  const label = form?.querySelector<HTMLElement>('[data-submit-label]') ?? null;
+
+  // Service-page CTAs arrive as /?service=<title>#contact — preselect their interest.
+  const requested = new URLSearchParams(window.location.search).get('service');
+  const select = document.getElementById('inq-service') as HTMLSelectElement | null;
+  if (requested && select) {
+    const match = Array.from(select.options).find((o) => o.value === requested);
+    if (match) select.value = match.value;
+  }
+
+  const setStatus = (kind: 'ok' | 'error' | null, html = '') => {
+    if (!status) return;
+    status.classList.toggle('hidden', kind === null);
+    status.classList.toggle('text-gold-light', kind === 'ok');
+    status.classList.toggle('text-red-300', kind === 'error');
+    status.innerHTML = html;
+  };
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const get = (key: string) => String(data.get(key) ?? '').trim();
+
+    if (!get('name') || !get('email')) {
+      setStatus('error', 'Please provide your name and email address.');
+      return;
+    }
+
+    if (submit) submit.disabled = true;
+    if (label) label.textContent = 'Sending…';
+    setStatus(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(data.entries())),
+      });
+      const result = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+
+      if (res.ok && result.ok) {
+        form.reset();
+        if (label) label.textContent = 'Inquiry Sent';
+        setStatus('ok', 'Thank you. Your inquiry has been received and will be answered personally, usually within one business day.');
+        return;
+      }
+      throw new Error(result.error || 'The inquiry could not be sent.');
+    } catch (err) {
+      if (submit) submit.disabled = false;
+      if (label) label.textContent = 'Send Private Inquiry';
+      const reason = err instanceof Error ? err.message : 'The inquiry could not be sent.';
+      setStatus(
+        'error',
+        `${reason} You can also write to me directly at <a class="underline underline-offset-4" href="mailto:${SITE.email}">${SITE.email}</a>.`,
+      );
+    }
+  });
+</script>

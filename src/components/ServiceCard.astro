@@ -1,0 +1,25 @@
+---
+/** Bordered grid-cell service card for hairline Swiss grids. */
+interface Props {
+  number: string;
+  title: string;
+  description: string;
+  tone?: 'light' | 'dark';
+}
+
+const { number, title, description, tone = 'light' } = Astro.props;
+const dark = tone === 'dark';
+---
+
+<article
+  class={`flex h-full flex-col gap-4 p-8 lg:p-10 ${dark ? 'bg-navy' : 'bg-porcelain'}`}
+  data-reveal-item
+>
+  <span class={`font-serif text-lg italic ${dark ? 'text-gold-light' : 'text-gold-dark'}`}>{number}</span>
+  <h3
+    class={`font-serif text-[1.375rem] font-light leading-snug tracking-[-0.01em] ${dark ? 'text-pearl' : 'text-ink'}`}
+  >
+    {title}
+  </h3>
+  <p class={`text-[0.9375rem] leading-relaxed ${dark ? 'text-pearl/65' : 'text-ink/70'}`}>{description}</p>
+</article>

@@ -1,0 +1,232 @@
+@import 'tailwindcss';
+
+@import '@fontsource-variable/archivo';
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/fraunces/wght-italic.css';
+
+@theme {
+  /* Luxury navy / white / gold palette, drawn from the Stephens crest */
+  --color-porcelain: #f5f7fa;
+  --color-mist: #e8edf5;
+  --color-pearl: #fbfcfe;
+  --color-ink: #101d38;
+  --color-navy: #0d2450;
+  --color-navy-deep: #031636;
+  --color-gold: #c29c58;
+  --color-gold-light: #ddbe83;
+  --color-gold-dark: #8f7239;
+  --color-stone: #7d8595;
+  --color-sapphire: #142e60;
+
+  /* Editorial type system */
+  --font-serif: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
+
+  --ease-estate: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    /* Keep the scrollbar's gutter reserved while the intro loader locks body
+       scrolling — otherwise the scrollbar vanishes, the viewport widens, and
+       the full-bleed hero visibly shifts when scrolling is restored. */
+    scrollbar-gutter: stable;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-porcelain font-sans text-ink antialiased;
+    font-feature-settings: 'ss01' on;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-pearl);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  /* Elements animated by Motion start hidden — only when JS + motion are available */
+  html.motion-ok [data-reveal],
+  html.motion-ok [data-reveal-item],
+  html.motion-ok [data-reveal-scale] {
+    opacity: 0;
+  }
+
+  /* Hero headline lines start below their overflow mask */
+  html.motion-ok [data-hero-line] {
+    transform: translateY(112%);
+  }
+
+  /* Intro loader: only exists for visitors who allow motion */
+  #loader {
+    display: none;
+  }
+
+  html.motion-ok #loader {
+    display: flex;
+    /* Safety valve: if the intro script never runs, release the page */
+    animation: loader-bail 0.6s var(--ease-estate) 7s forwards;
+  }
+
+  @keyframes loader-bail {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  /* Loader characters wait below their word's overflow mask */
+  html.motion-ok #loader [data-char] {
+    transform: translateY(115%);
+  }
+
+  /* Loader image layer starts fully clipped; the script opens the window */
+  html.motion-ok [data-loader-layer] {
+    clip-path: inset(50% 50% 50% 50%);
+  }
+
+  html.motion-ok [data-loader-img] {
+    transform: scale(1.35);
+  }
+
+  /* Hero elements the intro fades in after the loader concludes */
+  html.motion-ok [data-hero-fade] {
+    opacity: 0;
+  }
+}
+
+@layer components {
+  /* Small-caps Swiss eyebrow label */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+
+  /* Film-grain veil for photographic sections */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  }
+
+  /* Underline form fields on the dark inquiry panel */
+  .field-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-pearl) 60%, transparent);
+  }
+
+  .field-input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-pearl) 25%, transparent);
+    background: transparent;
+    padding: 0.75rem 0;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--color-pearl);
+    transition: border-color 0.4s var(--ease-estate);
+  }
+
+  .field-input::placeholder {
+    color: color-mix(in srgb, var(--color-pearl) 35%, transparent);
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-bottom-color: var(--color-gold-light);
+  }
+
+  select.field-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ddbe83' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.25rem center;
+    padding-right: 1.75rem;
+  }
+
+  select.field-input option {
+    background-color: var(--color-navy-deep);
+    color: var(--color-pearl);
+  }
+
+  /* Hero: Ken Burns settle — first paint is already at 1.08, so LCP is never delayed */
+  html.motion-ok .hero-zoom {
+    animation: hero-zoom 2.4s var(--ease-estate) both;
+  }
+
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  /* Hero: eased bottom scrim (multi-stop approximates an ease-out falloff) */
+  .hero-scrim {
+    background: linear-gradient(
+      to top,
+      var(--color-navy-deep) 0%,
+      color-mix(in srgb, var(--color-navy-deep) 82%, transparent) 16%,
+      color-mix(in srgb, var(--color-navy-deep) 55%, transparent) 36%,
+      color-mix(in srgb, var(--color-navy-deep) 28%, transparent) 58%,
+      color-mix(in srgb, var(--color-navy-deep) 10%, transparent) 78%,
+      transparent 100%
+    );
+  }
+
+  /* Hero: soft radial vignette to focus the frame */
+  .hero-vignette {
+    background: radial-gradient(
+      120% 90% at 50% 42%,
+      transparent 45%,
+      color-mix(in srgb, var(--color-navy-deep) 40%, transparent) 100%
+    );
+  }
+
+  /* Hero: scroll-cue line with a repeating gold sweep */
+  html.motion-ok .hero-cue-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-gold-light);
+    animation: hero-cue 2.8s var(--ease-estate) infinite;
+  }
+
+  @keyframes hero-cue {
+    0% {
+      transform: translateY(-101%);
+    }
+    55% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(101%);
+    }
+  }
+}

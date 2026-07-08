@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "stephens-property-services",
+  "compatibility_date": "2026-06-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  }
+  // The @astrojs/cloudflare adapter (v14, Vite-plugin based) generates the worker
+  // entry and assets config at build time; `main`/`assets` must not be set here.
+  // Secrets (not stored here): RESEND_API_KEY — set with `npx wrangler secret put RESEND_API_KEY`.
+  // Optional vars: CONTACT_TO / CONTACT_FROM override the inquiry recipient and sender.
+}

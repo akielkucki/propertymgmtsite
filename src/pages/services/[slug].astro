@@ -1,0 +1,152 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import { SITE } from '../../site';
+import { SERVICES } from '../../data/services';
+
+export function getStaticPaths() {
+  return SERVICES.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const others = SERVICES.filter((s) => s.slug !== service.slug);
+
+const pageUrl = new URL(`/services/${service.slug}/`, Astro.site).href;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${pageUrl}#service`,
+    name: service.title,
+    serviceType: service.seoTitle,
+    description: service.metaDescription,
+    url: pageUrl,
+    provider: { '@id': new URL('/#business', Astro.site).href },
+    areaServed: [
+      { '@type': 'Place', name: 'Plainfield, NH' },
+      { '@type': 'Place', name: 'Upper Valley, New Hampshire & Vermont' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: new URL('/#services', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: service.title, item: pageUrl },
+    ],
+  },
+];
+---
+
+<Layout
+  title={`${service.seoTitle} | ${SITE.shortName}`}
+  description={service.metaDescription}
+  ogImage={service.image}
+  schema={schema}
+>
+  <!-- Navy masthead keeps the fixed light-on-dark header legible -->
+  <Section class="bg-navy-deep pt-40 pb-20 text-pearl md:pt-48 md:pb-28">
+    <nav aria-label="Breadcrumb" data-reveal>
+      <ol class="eyebrow flex flex-wrap items-center gap-3 text-pearl/50">
+        <li><a href="/" class="transition-colors duration-300 hover:text-gold-light">Home</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/#services" class="transition-colors duration-300 hover:text-gold-light">Services</a></li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page" class="text-gold-light">{service.title}</li>
+      </ol>
+    </nav>
+
+    <div class="mt-14 flex items-start gap-4" data-reveal>
+      <span class="font-serif text-xl italic text-gold-light">{service.number}</span>
+      <h1
+        class="max-w-3xl font-serif text-[clamp(2.5rem,5.5vw,4.25rem)] font-light leading-[1.05] tracking-[-0.015em] -translate-y-2"
+      >
+        {service.seoTitle}
+      </h1>
+    </div>
+
+    <p class="mt-8 max-w-xl font-serif text-xl font-light italic leading-relaxed text-gold-light" data-reveal>
+      {service.tagline}
+    </p>
+  </Section>
+
+  <Section class="bg-porcelain py-24 md:py-32">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-14">
+      <div class="col-span-12 lg:col-span-5" data-reveal>
+        <div class="overflow-hidden">
+          <Image
+            src={service.image}
+            alt={service.imageAlt}
+            widths={[480, 760, 1100]}
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            class="aspect-[4/5] w-full object-cover"
+          />
+        </div>
+      </div>
+      <div class="col-span-12 flex flex-col justify-center gap-7 lg:col-span-6 lg:col-start-7" data-reveal>
+        {service.intro.map((paragraph) => (
+          <p class="max-w-xl text-[1.0625rem] leading-relaxed text-ink/75">{paragraph}</p>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <Section class="bg-navy py-24 text-pearl md:py-32">
+    <div class="flex items-start gap-4" data-reveal>
+      <span class="font-serif text-xl italic text-gold-light">{service.number}</span>
+      <h2 class="max-w-3xl font-serif text-[clamp(2rem,3.6vw,3rem)] font-light leading-[1.08] tracking-[-0.015em] -translate-y-2">
+        What this looks like in practice
+      </h2>
+    </div>
+
+    <div class="mt-14 border-b border-pearl/15 lg:mt-20" data-reveal-group>
+      {service.included.map((item, i) => (
+        <article class="grid grid-cols-12 items-baseline gap-x-6 gap-y-3 border-t border-pearl/15 py-7 lg:py-9" data-reveal-item>
+          <span class="col-span-12 font-serif text-lg italic text-gold-light md:col-span-1">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <h3 class="col-span-12 font-serif text-xl font-light leading-snug tracking-[-0.01em] text-pearl md:col-span-5 lg:col-span-4">
+            {item.title}
+          </h3>
+          <p class="col-span-12 text-[0.9375rem] leading-relaxed text-pearl/65 md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-8">
+            {item.description}
+          </p>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-16 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between" data-reveal>
+      <p class="max-w-md font-serif text-lg font-light italic leading-relaxed text-gold-light">
+        Every property has its particulars. Tell me about yours.
+      </p>
+      <Button href={`/?service=${encodeURIComponent(service.title)}#contact`} variant="gold">
+        Request Private Service
+      </Button>
+    </div>
+  </Section>
+
+  <Section class="bg-porcelain py-20 md:py-28">
+    <p class="eyebrow text-gold-dark" data-reveal>Continue exploring</p>
+    <div class="mt-10 grid grid-cols-1 gap-px border border-ink/15 bg-ink/15 sm:grid-cols-2 lg:grid-cols-5" data-reveal-group>
+      {others.map((s) => (
+        <a
+          href={`/services/${s.slug}/`}
+          class="group flex h-full flex-col justify-between gap-10 bg-porcelain p-7 transition-colors duration-300 hover:bg-navy"
+          data-reveal-item
+        >
+          <span class="font-serif text-lg italic text-gold-dark transition-colors duration-300 group-hover:text-gold-light">
+            {s.number}
+          </span>
+          <span class="font-serif text-xl font-light leading-snug tracking-[-0.01em] text-ink transition-colors duration-300 group-hover:text-pearl">
+            {s.title}
+            <span aria-hidden="true" class="ml-1.5 inline-block text-base transition-transform duration-500 group-hover:translate-x-1.5">→</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </Section>
+</Layout>

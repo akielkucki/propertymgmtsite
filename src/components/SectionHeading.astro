@@ -1,0 +1,22 @@
+---
+interface Props {
+  number: string;
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+
+const { number, tone = 'light', class: className = '' } = Astro.props;
+const dark = tone === 'dark';
+---
+
+<div class={`flex justify-baseline items-start gap-4 ${className}`} data-reveal>
+  <span class={`font-serif text-xl italic ${dark ? 'text-gold-light' : 'text-gold-dark'}`}>
+    {number}
+  </span>
+  <h2
+    class={`max-w-3xl font-serif text-[clamp(2.125rem,4.2vw,3.5rem)] font-light leading-[1.08] tracking-[-0.015em] -translate-y-2 ${dark ? 'text-pearl' : 'text-ink'}`}
+  >
+
+    <slot />
+  </h2>
+</div>

@@ -1,0 +1,42 @@
+---
+/** Wide editorial service row — numeral, title, description on a Swiss 12-column line.
+ *  Given an `href`, the whole row becomes a link to the service's page. */
+interface Props {
+  number: string;
+  title: string;
+  description: string;
+  tone?: 'light' | 'dark';
+  href?: string;
+}
+
+const { number, title, description, tone = 'light', href } = Astro.props;
+const dark = tone === 'dark';
+
+const Tag = href ? 'a' : 'article';
+
+const rowClass = `grid grid-cols-12 items-baseline gap-x-6 gap-y-3 border-t py-8 lg:py-10 hover:bg-white group transition-colors duration-200 ${dark ? 'border-pearl/15' : 'border-ink/15'}`;
+---
+
+<Tag class={rowClass} href={href} data-reveal-item>
+  <span class={`col-span-12 font-serif text-lg italic md:col-span-1 group-hover:text-black  ${dark ? 'text-gold-light' : 'text-gold-dark'}`}>
+    {number}
+  </span>
+  <h3
+    class={`col-span-12 font-serif text-2xl font-light leading-snug tracking-[-0.01em] md:col-span-5 lg:col-span-4 group-hover:text-black ${dark ? 'text-pearl' : 'text-ink'}`}
+  >
+    {title}
+    {href && (
+      <span
+        aria-hidden="true"
+        class={`ml-2 inline-block text-lg transition-transform duration-500 group-hover:translate-x-1.5 ${dark ? 'text-gold-light' : 'text-gold-dark'}`}
+      >
+        →
+      </span>
+    )}
+  </h3>
+  <p
+    class={`col-span-12 text-[0.9375rem] leading-relaxed md:col-span-6 md:col-start-7 lg:col-span-5 group-hover:text-black  lg:col-start-8 ${dark ? 'text-pearl/65' : 'text-ink/70'}`}
+  >
+    {description}
+  </p>
+</Tag>

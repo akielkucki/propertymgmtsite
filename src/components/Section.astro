@@ -1,0 +1,16 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+  /** Constrained inner container class overrides */
+  inner?: string;
+}
+
+const { id, class: className = '', inner = '' } = Astro.props;
+---
+
+<section id={id} class={`relative ${className}`}>
+  <div class={`mx-auto w-full max-w-[90rem] px-6 md:px-10 lg:px-16 ${inner}`}>
+    <slot />
+  </div>
+</section>

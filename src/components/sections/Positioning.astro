@@ -1,0 +1,46 @@
+---
+import Section from '../Section.astro';
+import SectionHeading from '../SectionHeading.astro';
+
+const assurances = [
+  {
+    title: 'Mission',
+    copy: 'My mission is to protect, elevate, and thoughtfully manage the homes and estates entrusted to me. I approach each property with a long-term mindset — balancing stewardship, discretion, efficiency, and care — ensuring every decision serves the best interest of both the property and the family it represents.',
+  },
+  {
+    title: 'Vision',
+    copy: 'I believe exceptional estate management goes beyond maintenance. It requires foresight, integrity, and an unwavering standard of excellence. My vision is always centered on sustainability, value preservation, and creating environments that operate seamlessly behind the scenes.',
+  },
+];
+---
+
+<Section id="positioning" class="bg-porcelain py-24 md:py-32 lg:py-40">
+  <SectionHeading number="01">
+    Protect, elevate, and thoughtfully manage.
+  </SectionHeading>
+
+  <div class="mt-14 grid grid-cols-12 gap-x-6 gap-y-14 lg:mt-20">
+    <div class="col-span-12 lg:col-span-6" data-reveal>
+      <p class="max-w-xl font-serif text-xl font-light leading-relaxed text-ink/85 md:text-2xl">
+        My work centers on the oversight and care of private homes and estates. I manage day-to-day property
+        needs, coordinate maintenance and projects, and maintain vendor relationships to ensure operations run
+        smoothly and responsibly.
+      </p>
+      <p class="mt-8 max-w-xl text-[0.9375rem] leading-relaxed text-ink/70">
+        I serve as a consistent, discreet point of contact — focused on continuity, asset protection, and
+        thoughtful stewardship of each property.
+      </p>
+    </div>
+
+    <div class="col-span-12 lg:col-span-5 lg:col-start-8" data-reveal-group>
+      {
+        assurances.map((item) => (
+          <div class="border-t border-ink/15 py-7 first:border-t-0 first:pt-0 lg:first:border-t lg:first:pt-7" data-reveal-item>
+            <h3 class="font-serif text-xl font-light text-ink">{item.title}</h3>
+            <p class="mt-3 text-[0.9375rem] leading-relaxed text-ink/70">{item.copy}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</Section>

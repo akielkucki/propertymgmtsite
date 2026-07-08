@@ -1,0 +1,237 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../Button.astro';
+import { SITE } from '../../site';
+import heroImage from '../../assets/hero2.png';
+
+const parts = SITE.shortName.split(' ');
+
+/*
+  Intro loader choreography (driven by the script below):
+  1. Each word's characters rise from below their mask; per-word stagger is
+     tuned so all words finish at the same moment.
+  2. A window opens between the first two words, revealing the hero image.
+  3. The window expands to full-bleed, the words and pearl field fall away.
+  4. Hero content fades in and the loader is removed.
+  The loader's image layer mirrors the hero media's geometry exactly, so the
+  final crossfade to the real hero is seamless. Hidden without motion-ok.
+*/
+---
+
+<div id="loader" class="fixed inset-0 z-[80] items-center justify-center overflow-hidden" aria-hidden="true">
+  <div class="absolute inset-0 bg-pearl" data-loader-bg></div>
+  <div class="fixed inset-x-0 -inset-y-[16%] will-change-[clip-path]" data-loader-layer>
+    <Image
+      src={heroImage}
+      alt=""
+      widths={[828, 1280, 1920, 2200]}
+      sizes="100vw"
+      class="h-full w-full object-cover will-change-transform"
+      data-loader-img
+      loading="eager"
+    />
+  </div>
+  <div
+    class="relative z-10 flex items-center px-4 font-serif text-[clamp(1.5rem,5.8vw,6.5rem)] font-light tracking-[-0.02em] whitespace-nowrap text-ink"
+    data-loader-row
+  >
+    {parts.map((part, i) => (
+      <Fragment>
+        {i === 1 && <span class="block h-[0.74em] w-0 shrink-0 self-center" data-loader-slot></span>}
+        <span class:list={['inline-flex overflow-hidden pb-[0.12em] -mb-[0.12em]', i > 0 && 'ml-[0.45em]']} data-word>
+          {part.split('').map((char) => (
+            <span class="inline-block will-change-transform" data-char>{char}</span>
+          ))}
+        </span>
+      </Fragment>
+    ))}
+  </div>
+</div>
+
+<section id="top" class="grain relative flex min-h-svh flex-col justify-end overflow-hidden bg-navy-deep text-pearl">
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute inset-x-0 -inset-y-[16%] will-change-transform" data-hero-media>
+      <Image
+        src={heroImage}
+        alt="A stone country manor surrounded by mature trees, reflected in a still pond"
+        widths={[828, 1280, 1920, 2200]}
+        sizes="100vw"
+        class="h-full w-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+    <div class="hero-scrim absolute inset-0" aria-hidden="true"></div>
+    <div class="hero-vignette absolute inset-0" aria-hidden="true"></div>
+    <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-navy-deep/45 to-transparent" aria-hidden="true"></div>
+  </div>
+
+  <div class="relative z-10 mx-auto w-full  px-6 pt-40 pb-16 md:px-10 lg:px-16 lg:pb-20">
+    <p class="eyebrow mb-8 flex items-center text-white" data-hero-fade>
+      <Image src="/assets/icons/location.svg" alt="" width={20} height={20} />&nbsp;&nbsp;Plainfield, New Hampshire
+    </p>
+    <h1 class="font-serif text-[clamp(2.75rem,7.2vw,7.75rem)] font-light leading-[1.02] tracking-[-0.02em]">
+      <span class="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
+        <span class="block" data-hero-line>Your Key to</span>
+      </span>
+      <span class="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
+        <span class="block" data-hero-line><em class="italic text-gold-light">Peace of Mind.</em></span>
+      </span>
+    </h1>
+    <div class="mt-12" data-hero-fade>
+      <Button href="#contact" variant="light">Request Private Service</Button>
+    </div>
+  </div>
+
+  <div
+    class="pointer-events-none absolute top-1/2 right-6 z-10 hidden -translate-y-1/2 flex-col items-center gap-4 md:right-10 lg:flex lg:right-16"
+    aria-hidden="true"
+    data-hero-cue
+  >
+    <span class="eyebrow text-[0.625rem] text-pearl/50 [writing-mode:vertical-rl]">Scroll</span>
+    <span class="hero-cue-line relative block h-16 w-px overflow-hidden bg-pearl/20"></span>
+  </div>
+</section>
+
+<script>
+  import { animate, scroll, stagger } from 'motion';
+
+  const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+  const EXPAND_EASE: [number, number, number, number] = [0.72, 0, 0.28, 1];
+
+  const motionOk = document.documentElement.classList.contains('motion-ok');
+  const loader = document.getElementById('loader');
+  const section = document.getElementById('top');
+
+  function insetFor(layer: Element, rect: { top: number; right: number; bottom: number; left: number }) {
+    const L = layer.getBoundingClientRect();
+    const px = (n: number) => `${Math.max(0, n)}px`;
+    return `inset(${px(rect.top - L.top)} ${px(L.right - rect.right)} ${px(L.bottom - rect.bottom)} ${px(rect.left - L.left)})`;
+  }
+
+  function heroIn() {
+    if (!section) return;
+    animate(
+      section.querySelectorAll('[data-hero-line]'),
+      { y: ['112%', '0%'] },
+      { duration: 1.1, ease: EASE, delay: stagger(0.12) },
+    );
+    animate(
+      section.querySelectorAll('[data-hero-fade]'),
+      { opacity: [0, 1], y: [18, 0] },
+      { duration: 0.9, ease: EASE, delay: stagger(0.14, { startDelay: 0.4 }) },
+    );
+  }
+
+  async function intro() {
+    if (!motionOk) return;
+    if (!loader) {
+      heroIn();
+      return;
+    }
+
+    const row = loader.querySelector<HTMLElement>('[data-loader-row]');
+    const slot = loader.querySelector<HTMLElement>('[data-loader-slot]');
+    const layer = loader.querySelector<HTMLElement>('[data-loader-layer]');
+    const img = loader.querySelector<HTMLImageElement>('[data-loader-img]');
+    const words = Array.from(loader.querySelectorAll<HTMLElement>('[data-word]'));
+
+    if (!row || !slot || !layer || !img || words.length === 0) {
+      loader.remove();
+      heroIn();
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+    try {
+      // Pin the loader's image layer to the hero media's exact horizontal
+      // geometry. The fixed layer spans the viewport (scrollbar gutter
+      // included), while the hero lays out inside it — left unaligned, the
+      // final crossfade would land a scrollbar-width off.
+      const heroMedia = section?.querySelector<HTMLElement>('[data-hero-media]');
+      if (heroMedia) {
+        const hm = heroMedia.getBoundingClientRect();
+        layer.style.left = `${hm.left}px`;
+        layer.style.width = `${hm.width}px`;
+        layer.style.right = 'auto';
+      }
+
+      // Avoid mid-animation reflow from late webfonts or a still-decoding image.
+      await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 900))]);
+      await img.decode().catch(() => {});
+
+      // 1) Characters rise. Every word gets its own stagger so that all words
+      //    finish at the same moment regardless of character count.
+      const CHAR_DURATION = 0.55;
+      const WORD_END = 1.05;
+      await Promise.all(
+        words.map((word) => {
+          const chars = word.querySelectorAll('[data-char]');
+          const per = chars.length > 1 ? (WORD_END - CHAR_DURATION) / (chars.length - 1) : 0;
+          return animate(
+            chars,
+            { y: ['115%', '0%'] },
+            { duration: CHAR_DURATION, ease: EASE, delay: stagger(per, { startDelay: 0.4 }) },
+          ).finished;
+        }),
+      );
+
+      // 2) A window opens between the first two words: the in-flow slot widens
+      //    (pushing the words apart) while the image layer's clip tracks it.
+      const fontSize = parseFloat(getComputedStyle(row).fontSize);
+      let raf = 0;
+      const trackSlot = () => {
+        layer.style.clipPath = insetFor(layer, slot.getBoundingClientRect());
+        raf = requestAnimationFrame(trackSlot);
+      };
+      trackSlot();
+      animate(img, { scale: [1.35, 1.16] }, { duration: 1.3, ease: EASE });
+      await animate(
+        slot,
+        { width: [0, fontSize * 1.5], marginLeft: [0, fontSize * 0.45] },
+        { duration: 0.8, ease: EASE, delay: 0.15 },
+      ).finished;
+      cancelAnimationFrame(raf);
+      await new Promise((r) => setTimeout(r, 350));
+
+      // 3) The window expands to full-bleed while the words and pearl field
+      //    fall away; the image settles from its zoom to scale 1, which makes
+      //    it match the hero media underneath exactly.
+      const from = insetFor(layer, slot.getBoundingClientRect());
+      // Expand the clip to the hero media itself (not the raw viewport), so
+      // the reveal ends exactly on the geometry the crossfade hands over to.
+      const heroRect = heroMedia?.getBoundingClientRect();
+      const to = insetFor(
+        layer,
+        heroRect ?? { top: 0, right: document.documentElement.clientWidth, bottom: window.innerHeight, left: 0 },
+      );
+      animate(words, { opacity: 0, y: '-0.15em' }, { duration: 0.5, ease: EASE });
+      animate(img, { scale: [1.16, 1] }, { duration: 1.15, ease: EXPAND_EASE });
+      await animate(layer, { clipPath: [from, to] }, { duration: 1.15, ease: EXPAND_EASE }).finished;
+
+      // 4) Hero content in; crossfade the loader out over the identical hero.
+      heroIn();
+      await animate(loader, { opacity: [1, 0] }, { duration: 0.7, ease: 'linear', delay: 0.1 }).finished;
+    } finally {
+      loader.remove();
+      document.body.style.overflow = '';
+    }
+  }
+
+  // The parallax must register after the intro: while the loader locks body
+  // scrolling, Motion's scroll tracker degenerates and offsets the hero media.
+  function setupParallax() {
+    if (!section) return;
+    const media = section.querySelector('[data-hero-media]');
+    if (media) {
+      scroll(animate(media, { y: ['0%', '0%'] }, { ease: 'linear' }), {
+        target: section,
+        offset: ['start start', 'end start'],
+      });
+    }
+  }
+
+  intro().then(() => {
+    if (motionOk) setupParallax();
+  });
+</script>

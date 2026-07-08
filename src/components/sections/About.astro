@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import Section from '../Section.astro';
+import SectionHeading from '../SectionHeading.astro';
+import libraryImage from '../../assets/library.jpg';
+---
+
+<Section id="about" class="bg-porcelain py-24 md:py-32 lg:py-40">
+  <SectionHeading number="04">
+    My path began on the water.
+  </SectionHeading>
+
+  <div class="mt-14 grid grid-cols-12 gap-x-6 gap-y-12 lg:mt-20">
+    <div class="col-span-12 lg:col-span-5">
+      <div class="relative aspect-[4/3] overflow-hidden lg:aspect-[3/4]" data-reveal-scale>
+        <Image
+          src={libraryImage}
+          alt="Floor-to-ceiling shelves of well-kept books in a private library"
+          widths={[640, 960, 1440]}
+          sizes="(min-width: 1024px) 38vw, 100vw"
+          class="h-full w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-sapphire/20 mix-blend-multiply"></div>
+      </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 lg:col-start-7" data-reveal>
+      <p class="max-w-xl font-serif text-xl font-light leading-relaxed text-ink/85 md:text-2xl">
+        For many years, I worked as a boat captain, navigating vessels where precision, foresight, and
+        responsibility were not optional — they were the standard.
+      </p>
+      <div class="mt-8 max-w-xl space-y-6 text-[0.9375rem] leading-relaxed text-ink/70">
+        <p>
+          Managing mechanical systems, crews, logistics, and the quiet expectations of ownership taught me
+          discipline, adaptability, and an unwavering attention to detail. I was pursuing a captain&rsquo;s
+          position aboard private yachts when an unexpected opportunity arose on land — a different kind of
+          vessel to steward. What I often call the &ldquo;land yacht&rdquo; became my next chapter.
+        </p>
+        <p>
+          Estate and property management felt like a natural evolution. The scale changed, but the principles
+          remained: protection of assets, operational excellence, thoughtful oversight, and hands-on leadership.
+          From full property transformations and ground-up builds to landscape design, budgeting, vendor
+          coordination, and long-term maintenance, I am present in every layer of the work.
+        </p>
+        <p class="font-serif text-lg font-light italic text-ink/80">
+          To me, estate management is stewardship — ensuring that beauty, function, and value move in quiet
+          harmony.
+        </p>
+      </div>
+
+      <dl class="mt-12 grid grid-cols-1 gap-6 border-t border-ink/15 pt-8 sm:grid-cols-3">
+        <div>
+          <dt class="eyebrow text-gold-dark">Foresight</dt>
+          <dd class="mt-2 text-sm leading-relaxed text-ink/65">Solving problems before they appear.</dd>
+        </div>
+        <div>
+          <dt class="eyebrow text-gold-dark">Integrity</dt>
+          <dd class="mt-2 text-sm leading-relaxed text-ink/65">An unwavering standard of excellence.</dd>
+        </div>
+        <div>
+          <dt class="eyebrow text-gold-dark">Stewardship</dt>
+          <dd class="mt-2 text-sm leading-relaxed text-ink/65">Hands-on leadership, in every layer of the work.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</Section>

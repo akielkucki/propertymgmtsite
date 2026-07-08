@@ -1,0 +1,51 @@
+---
+import Section from '../Section.astro';
+import SectionHeading from '../SectionHeading.astro';
+import ServiceCard from '../ServiceCard.astro';
+
+const services = [
+  {
+    number: 'I',
+    title: 'Landscape & Exterior Coordination',
+    description: 'Grounds, drives, and exterior care held to the estate’s standard: coordinated, scheduled, and checked.',
+  },
+  {
+    number: 'II',
+    title: 'Snow Removal Oversight & Seasonal Readiness',
+    description: 'Winter contracts arranged and supervised, and the property kept safe and passable through the season.',
+  },
+  {
+    number: 'III',
+    title: 'Vehicle, Boat & Equipment Oversight',
+    description: 'Batteries tended, storage managed, service scheduled. Ready when you want them, protected when you don’t.',
+  },
+  {
+    number: 'IV',
+    title: 'Trusted Local Representation',
+    description: 'A responsible local party for insurers, deliveries, neighbors, and anyone who needs the owner but shouldn’t call the owner.',
+  },
+  {
+    number: 'V',
+    title: 'Custom Estate Support',
+    description: 'Every property has its particulars. If it needs attention, it can be coordinated, overseen, or solved.',
+  },
+];
+---
+
+<Section id="support" class="bg-porcelain py-24 md:py-32 lg:py-40">
+  <SectionHeading number="05">
+    Additional Estate Support
+  </SectionHeading>
+
+  <div
+    class="mt-14 grid grid-cols-1 gap-px border border-ink/15 bg-ink/15 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3"
+    data-reveal-group
+  >
+    {services.map((s) => <ServiceCard {...s} />)}
+    <div class="flex h-full flex-col justify-end bg-navy p-8 lg:p-10" data-reveal-item>
+      <p class="font-serif text-lg font-light italic leading-relaxed text-pearl/85">
+        The service is shaped to the property, not the other way around.
+      </p>
+    </div>
+  </div>
+</Section>

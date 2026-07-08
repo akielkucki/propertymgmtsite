@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import Section from '../Section.astro';
+import SectionHeading from '../SectionHeading.astro';
+import poolImage from '../../assets/pool.webp';
+import haleProject from '../../assets/hale.webp';
+import landscaping from '../../assets/landscaping.webp';
+
+const projects = [
+  {
+    number: 'I',
+    title: 'Pool Project',
+    image: poolImage,
+    alt: 'A stone country manor beside a still reflecting pond',
+    paragraphs: [
+      'From the first sketches to the final flourish, I guided and helped build every aspect of the project — meeting with architects and inspectors, shaping the excavation and construction, crafting the landscaping, and tending to ongoing maintenance.',
+      'Ensuring every detail reflected the original vision.',
+    ],
+  },
+  {
+    number: 'II',
+    title: 'Hale Project',
+    image: haleProject,
+    alt: 'Open golden fields at sunset, before the first clearing of earth',
+    paragraphs: [
+      'This home began as open ground and shared imagination. A collaborative vision sketched across a blank landscape, shaped by dialogue, trust, and intention.',
+      'From the first clearing of earth to the final turn of a handle, I carried the project in full — overseeing design conversations, coordinating trades, managing timelines and budgets, and guiding every phase from raw land to refined living. Every decision was deliberate. Every detail considered. Every challenge met with resolve.',
+      'What stands now is more than a finished structure. It is the result of steady leadership, hands-on execution, and a deep respect for craft. A home drawn from the ground up — thoughtfully built, carefully managed, and brought fully to life.',
+    ],
+  },
+  {
+    number: 'III',
+    title: 'Love for Landscaping',
+    image: landscaping,
+    alt: 'A path winding through tall trees and layered greenery',
+    paragraphs: [
+      'For the past fifteen years, my stewardship of a vast estate in Kipahulu, Hawaiʻi has been an immersion in tropical abundance. What began as raw land in the deep, fertile tropics has evolved — season by season — into a thriving botanical sanctuary.',
+      'Cacao and soursop. Jaboticaba and sapote. Mango, guava, citrus, and countless others — each placed with intention. Each tree considered for canopy spread, root behavior, cross-pollination, long-term yield, and how it would contribute to the greater ecosystem.',
+      'This was never simply landscaping. It was cultivation in its truest sense — guiding raw land into a fruiting, botanical paradise. A living collection. A tropical orchard shaped by patience, knowledge, and a profound respect for the land.',
+    ],
+  },
+];
+---
+
+<Section id="projects" class="bg-mist py-24 md:py-32 lg:py-40">
+  <SectionHeading number="03">
+    My Collabs
+  </SectionHeading>
+
+  <div class="mt-10 flex justify-start gap-x-6">
+    <p class="col-span-12 max-w-xl text-[0.9375rem] leading-relaxed text-ink/70 md:col-span-7 md:col-start-4" data-reveal>
+      From first sketches to finished ground — a few of the projects carried from raw land to refined living.
+    </p>
+  </div>
+
+  <div class="mt-16 space-y-20 lg:mt-24 lg:space-y-28">
+    {
+      projects.map((project, i) => (
+        <article class="grid grid-cols-12 items-center gap-x-6 gap-y-10">
+          <div class:list={['col-span-12 lg:col-span-6', i % 2 === 1 && 'lg:order-2 lg:col-start-7']}>
+            <div class="relative aspect-[4/3] overflow-hidden" data-reveal-scale>
+              <Image
+                src={project.image}
+                alt={project.alt}
+                widths={[640, 960, 1440]}
+                sizes="(min-width: 1024px) 46vw, 100vw"
+                class="h-full w-full object-cover"
+              />
+              <div class="absolute inset-0 bg-sapphire/15 mix-blend-multiply" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class:list={['col-span-12 lg:col-span-5', i % 2 === 1 ? 'lg:col-start-1 lg:order-1' : 'lg:col-start-8']} data-reveal>
+            <span class="font-serif text-lg italic text-gold-dark">{project.number}</span>
+            <h3 class="mt-3 font-serif text-3xl font-light tracking-[-0.01em] text-ink md:text-4xl">{project.title}</h3>
+            <div class="mt-6 space-y-5 text-[0.9375rem] leading-relaxed text-ink/70">
+              {project.paragraphs.map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>

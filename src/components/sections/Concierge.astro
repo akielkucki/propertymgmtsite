@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import Section from '../Section.astro';
+import SectionHeading from '../SectionHeading.astro';
+import ServiceCard from '../ServiceCard.astro';
+import driveImage from '../../assets/drive.jpg';
+
+const services = [
+  {
+    number: 'I',
+    title: 'Home Preparation',
+    description: 'The residence opened, aired, set to temperature, and standing ready before you arrive.',
+  },
+  {
+    number: 'II',
+    title: 'House Stocking',
+    description: 'Groceries, essentials, and household supplies placed before arrival, to your standing list or the season’s request.',
+  },
+  {
+    number: 'III',
+    title: 'Vendor Access & Coordination',
+    description: 'Trades and deliveries met, supervised, and seen out. You are never the keyholder of last resort.',
+  },
+  {
+    number: 'IV',
+    title: 'Package Receiving & Deliveries',
+    description: 'Packages received, logged, and placed securely. Nothing left on a step, nothing unaccounted for.',
+  },
+  {
+    number: 'V',
+    title: 'Emergency Response & On-Call Support',
+    description: 'A trusted local contact when weather, systems, or circumstance demand immediate attention.',
+  },
+  {
+    number: 'VI',
+    title: 'Mail & Property Oversight',
+    description: 'Mail collected, the home checked, and the property quietly watched for as long as you are away.',
+  },
+];
+---
+
+<Section id="concierge" class="bg-porcelain py-24 md:py-32 lg:py-40">
+  <SectionHeading number="03">
+    Concierge Support for Owners Away From Home
+  </SectionHeading>
+
+  <div class="mt-14 grid grid-cols-12 gap-x-6 gap-y-12 lg:mt-20">
+    <div class="col-span-12 lg:col-span-4">
+      <div class="relative aspect-[3/4] overflow-hidden" data-reveal-scale>
+        <Image
+          src={driveImage}
+          alt="A gravel drive winding through mature woodland in soft morning light"
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 1024px) 30vw, 100vw"
+          class="h-full w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-navy-deep/25"></div>
+      </div>
+      <p class="mt-8 max-w-sm font-serif text-lg font-light italic leading-relaxed text-ink/75" data-reveal>
+        For seasonal residents and absentee owners, the measure of good service is simple: the house is ready,
+        and nothing has been left to chance.
+      </p>
+    </div>
+
+    <div
+      class="col-span-12 grid grid-cols-1 gap-px border border-ink/15 bg-ink/15 sm:grid-cols-2 lg:col-span-8"
+      data-reveal-group
+    >
+      {services.map((s) => <ServiceCard {...s} />)}
+    </div>
+  </div>
+</Section>

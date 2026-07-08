@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import countrysideImage from '../../assets/countryside.jpg';
+---
+
+<section class="grain relative overflow-hidden bg-navy-deep py-32 text-pearl md:py-44 lg:py-56">
+  <div class="absolute inset-0">
+    <Image
+      src={countrysideImage}
+      alt=""
+      widths={[828, 1280, 1920, 2200]}
+      sizes="100vw"
+      class="h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-navy-deep/80"></div>
+  </div>
+
+  <figure class="relative z-10 mx-auto w-full max-w-[90rem] px-6 md:px-10 lg:px-16" data-reveal>
+    <div class="max-w-4xl">
+      <span class="mb-10 block h-px w-16 bg-gold" aria-hidden="true"></span>
+      <blockquote class="font-serif text-[clamp(1.75rem,3.6vw,3rem)] font-light leading-[1.25] tracking-[-0.01em]">
+        Surfing taught me <em class="italic text-gold-light">patience, balance, and respect</em> for forces larger
+        than myself. In many ways, those same lessons guide how I care for the places and properties entrusted
+        to me today.
+      </blockquote>
+      <figcaption class="eyebrow mt-10 text-pearl/50">Mark Stephens</figcaption>
+    </div>
+  </figure>
+</section>
