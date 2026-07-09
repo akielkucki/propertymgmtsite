@@ -69,7 +69,7 @@ import { SITE, NAV_LINKS } from '../site';
       ))
     }
   </nav>
-  <div class="menu-link px-8 pb-12" style="--i: 5">
+  <div class="menu-link px-8 pb-12" style={`--i: ${NAV_LINKS.length}`}>
     <p class="eyebrow mb-4 text-pearl/50">Direct correspondence</p>
     <a href={`mailto:${SITE.email}`} class="font-serif text-lg italic text-gold-light underline-offset-4 hover:underline">
       {SITE.email}

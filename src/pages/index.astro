@@ -3,18 +3,28 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/sections/Hero.astro';
 import Positioning from '../components/sections/Positioning.astro';
 import CoreServices from '../components/sections/CoreServices.astro';
-import Projects from '../components/sections/Projects.astro';
+import Concierge from '../components/sections/Concierge.astro';
+import AdditionalSupport from '../components/sections/AdditionalSupport.astro';
 import Statement from '../components/sections/Statement.astro';
 import About from '../components/sections/About.astro';
+import Projects from '../components/sections/Projects.astro';
+import Process from '../components/sections/Process.astro';
 import Contact from '../components/sections/Contact.astro';
 ---
 
+<!--
+  Funnel: positioning → management & concierge services → background as
+  credibility (statement, story, projects) → process → inquiry.
+-->
 <Layout>
   <Hero />
   <Positioning />
   <CoreServices />
-  <Projects />
+  <Concierge />
+  <AdditionalSupport />
   <Statement />
   <About />
+  <Projects />
+  <Process />
   <Contact />
 </Layout>

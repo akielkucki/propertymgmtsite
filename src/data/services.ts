@@ -2,6 +2,9 @@
  * Single source of truth for the six core services.
  * Feeds the front-page service rows, the /services/[slug] pages,
  * the contact form's service selector, and per-service JSON-LD.
+ *
+ * Positioning: management and concierge. Every service is framed as
+ * oversight, coordination, and stewardship — not hands-on trade work.
  */
 import type { ImageMetadata } from 'astro';
 import library from '../assets/library.jpg';
@@ -18,7 +21,7 @@ export interface Service {
   /** Keyword-rich page title; Layout appends the business name. */
   seoTitle: string;
   metaDescription: string;
-  /** Front-page service-row copy — kept verbatim from the original section. */
+  /** Front-page service-row copy. */
   summary: string;
   /** Italic line under the page heading. */
   tagline: string;
@@ -30,135 +33,96 @@ export interface Service {
 
 export const SERVICES: Service[] = [
   {
-    slug: 'craftsmanship',
+    slug: 'estate-management',
     number: 'I',
-    title: 'Craftsmanship',
-    seoTitle: 'Estate Craftsmanship & Fine Carpentry in Plainfield, NH',
+    title: 'Estate Management',
+    seoTitle: 'Private Estate & Property Management in Plainfield, NH',
     metaDescription:
-      'Fine carpentry and estate craftsmanship in Plainfield, NH and the Upper Valley. Small projects, built and finished properly — measured, aligned, repaired, rebuilt.',
+      'Full-service private estate and property management in Plainfield, NH and the Upper Valley. One trusted point of contact for oversight, vendors, budgets, and the quiet running of the home.',
     summary:
-      'There is satisfaction in doing something properly. Measured, aligned, repaired, rebuilt. Small projects are often where care shows the most.',
-    tagline: 'Small projects are often where care shows the most.',
+      'The whole property, held as a single responsibility. Oversight, vendors, budgets, and the quiet running of the home — managed by one accountable steward.',
+    tagline: 'The whole property, managed as a single responsibility.',
     intro: [
-      'Fine homes are built from a thousand small decisions made well. A shelf that sits true, a joint that closes without a shadow, a finish that will still look right in ten years. I bring a craftsman’s hand to the projects an estate accumulates — the built-ins, the trim work, the outbuildings, the pieces that deserve better than a rushed job.',
-      'Working across New Hampshire’s Upper Valley, I take on the work at the scale it actually is: some projects are an afternoon, some are a season. Either way they are measured twice, built once, and finished properly.',
+      'A fine property deserves more than a list of contractors; it deserves a steward. Estate management is the discipline of holding the whole — house, grounds, systems, vendors, budgets — as one responsibility, so the owner holds none of it. Decisions are made with a long-term mindset, in the best interest of both the property and the family it represents.',
+      'For homeowners in Plainfield and the surrounding Upper Valley, I serve as that single, discreet point of contact: present on the property, ahead of its needs, and accountable for everything that happens on it.',
     ],
     included: [
       {
-        title: 'Finish carpentry & trim',
-        description: 'Interior woodwork, built-ins, doors, and trim — fitted, aligned, and finished to the standard of the home.',
+        title: 'Complete property oversight',
+        description: 'House, grounds, outbuildings, and systems held to one standard, on one calendar, under one responsible eye.',
       },
       {
-        title: 'Small-project construction',
-        description: 'Garden structures, storage, shelving, gates, and the useful pieces a property asks for over time.',
+        title: 'Vendor & contractor management',
+        description: 'The right people selected, scheduled, supervised, and held to the estate’s standard — you never chase a trade again.',
       },
       {
-        title: 'Rebuilds done right',
-        description: 'When something has been patched one time too many, it gets taken apart and rebuilt so it stops being a problem.',
+        title: 'Budgets & reporting',
+        description: 'Costs planned, tracked, and reported in plain language, so ownership always knows where the property stands.',
       },
       {
-        title: 'Material & finish selection',
-        description: 'Wood, hardware, and finishes chosen for the climate and the character of the property — not just what’s on the shelf.',
+        title: 'Household & grounds coordination',
+        description: 'Housekeeping, landscape, and seasonal services woven into one schedule that respects how the home is lived in.',
       },
       {
-        title: 'Coordination with the trades',
-        description: 'Where a project touches plumbing, electrical, or masonry, I bring in and supervise the right people.',
+        title: 'Discretion as standard',
+        description: 'Quiet, professional, and confidential. The property runs seamlessly, and privately, behind the scenes.',
       },
     ],
-    image: library,
-    imageAlt: 'Finely crafted interior woodwork and shelving in a private home',
+    image: hale,
+    imageAlt: 'A refined New England home under thoughtful, long-term management',
   },
   {
-    slug: 'small-repair',
+    slug: 'concierge',
     number: 'II',
-    title: 'Small Repair',
-    seoTitle: 'Home & Estate Repair Services in the Upper Valley, NH',
+    title: 'Concierge Services',
+    seoTitle: 'Estate Concierge Services in the Upper Valley, NH',
     metaDescription:
-      'Careful home and estate repair in Plainfield, NH and the Upper Valley. Hinges, latches, gates, fixtures — small repairs done properly, restoring how a property lives day to day.',
+      'Private concierge support for homeowners in Plainfield, NH and the Upper Valley: arrival preparation, house stocking, deliveries, vendor access, and trusted on-call local representation.',
     summary:
-      'A hinge, a latch, a gate that no longer swings true. Small details quietly shape how a property lives and functions. A careful repair restores not just the object, but the rhythm of daily use.',
-    tagline: 'A careful repair restores not just the object, but the rhythm of daily use.',
+      'The residence opened, warmed, and provisioned before you arrive. Deliveries received, vendors met, and every practical detail handled while you are away.',
+    tagline: 'The house is ready, and nothing has been left to chance.',
     intro: [
-      'Every property keeps a quiet list: the door that sticks in July, the latch that needs a certain touch, the step that moves a little more each spring. None of it is an emergency, and that is exactly why it tends to wait. I work through that list — properly, not provisionally — so the house works the way it was meant to.',
-      'For homeowners in Plainfield and the surrounding Upper Valley, this is the difference between a property that is maintained and one that is merely occupied. Small repairs, handled well and on time, are the cheapest insurance an estate can buy.',
+      'For seasonal residents and owners away from home, the measure of good service is simple: you arrive, and everything is already done. The house is open and set to temperature, the pantry is stocked, the drive is clear, and the quiet logistics of ownership — deliveries, mail, trades at the door — have been handled without a single call.',
+      'I provide that standing presence in the Upper Valley. Whatever the household needs before, during, or between your stays is anticipated, arranged, and seen through personally.',
     ],
     included: [
       {
-        title: 'Doors, windows & hardware',
-        description: 'Hinges, latches, locks, and sashes adjusted or replaced so everything opens, closes, and seals as it should.',
+        title: 'Home preparation & arrivals',
+        description: 'The residence opened, aired, warmed, and standing ready before you arrive; secured and set properly when you leave.',
       },
       {
-        title: 'Gates, fences & railings',
-        description: 'Swing corrected, posts reset, rot cut out and replaced — the boundaries of the property kept true.',
+        title: 'House stocking',
+        description: 'Groceries, essentials, and household supplies placed before arrival, to your standing list or the season’s request.',
       },
       {
-        title: 'Fixtures & fittings',
-        description: 'The dripping faucet, the loose handle, the light that flickers. Diagnosed and repaired, not worked around.',
+        title: 'Vendor access & coordination',
+        description: 'Trades and deliveries met, supervised, and seen out. You are never the keyholder of last resort.',
       },
       {
-        title: 'Seasonal wear',
-        description: 'What New England weather loosens each year — caulk, glazing, weatherstripping, thresholds — put right.',
+        title: 'Deliveries & mail',
+        description: 'Packages received, logged, and placed securely; mail collected and forwarded. Nothing left on a step, nothing unaccounted for.',
       },
       {
-        title: 'The running list',
-        description: 'I keep the property’s repair list so you don’t have to, and work it down on a schedule that suits the household.',
+        title: 'Emergency & on-call support',
+        description: 'A trusted local contact when weather, systems, or circumstance demand immediate attention.',
       },
     ],
     image: drive,
     imageAlt: 'A gated drive leading to a private New England property',
   },
   {
-    slug: 'restoration',
-    number: 'III',
-    title: 'Restoration',
-    seoTitle: 'Property & Estate Restoration in New Hampshire',
-    metaDescription:
-      'Thoughtful restoration of homes, barns, and estate structures in New Hampshire. Repairs that preserve the integrity and character of a place while preparing it for the years ahead.',
-    summary:
-      'Time leaves its mark on every structure. Thoughtful repair preserves the integrity of a place while preparing it for the years ahead.',
-    tagline: 'Preserving the integrity of a place while preparing it for the years ahead.',
-    intro: [
-      'Older homes and their outbuildings carry something worth keeping. The proportions, the materials, the evidence of hands that knew what they were doing. Restoration is the discipline of repairing what time has worn without erasing what makes the place itself.',
-      'I approach restoration projects in New Hampshire the way they deserve: understand the structure first, stabilize what needs stabilizing, then repair with materials and methods sympathetic to the original. The goal is a building that is sound for the next fifty years and still honest about its first hundred.',
-    ],
-    included: [
-      {
-        title: 'Assessment before action',
-        description: 'A careful read of the structure — what is original, what has been altered, what is failing and why — before any work begins.',
-      },
-      {
-        title: 'Structural repair',
-        description: 'Sills, framing, and foundations addressed at the cause, so the repair holds and the building settles no further.',
-      },
-      {
-        title: 'Sympathetic materials',
-        description: 'Species, profiles, and finishes matched to the original work, sourced with the same care they were first chosen with.',
-      },
-      {
-        title: 'Barns & outbuildings',
-        description: 'The structures that give a New England property its character, kept standing and kept useful.',
-      },
-      {
-        title: 'Phased, managed work',
-        description: 'Larger restorations broken into sensible phases, with specialists brought in and supervised where the work demands it.',
-      },
-    ],
-    image: hale,
-    imageAlt: 'A restored home showing preserved original character',
-  },
-  {
     slug: 'daily-stewardship',
-    number: 'IV',
+    number: 'III',
     title: 'Daily Stewardship',
     seoTitle: 'Property Caretaking & Home Watch in Plainfield, NH',
     metaDescription:
-      'Ongoing property caretaking and home watch in Plainfield, NH and the Upper Valley. Regular inspection, maintenance, and quiet daily discipline that keeps private homes and estates thriving.',
+      'Ongoing property caretaking and home watch in Plainfield, NH and the Upper Valley. Regular inspection, maintenance oversight, and quiet daily discipline that keeps private homes and estates thriving.',
     summary:
-      'The small things done well, every day. Inspection. Maintenance. Adjustment. The quiet discipline that keeps a property thriving.',
+      'The small things watched well, every day. Inspection. Oversight. Adjustment. The quiet discipline that keeps a property thriving.',
     tagline: 'The quiet discipline that keeps a property thriving.',
     intro: [
       'A property is not maintained by events; it is maintained by habits. Walking the grounds after a storm. Noticing the sound a pump shouldn’t make. Catching the ice dam while it is still a shadow on the eave. Daily stewardship is that habit, practiced on your behalf.',
-      'For owners who are away — a second home, a seasonal residence, an estate between visits — this is caretaking in the full sense: regular inspections, standing maintenance, and a trusted local presence in the Upper Valley who treats the property as if it were his own. You arrive to a house that has been lived toward, not just locked up.',
+      'For owners who are away — a second home, a seasonal residence, an estate between visits — this is caretaking in the full sense: regular inspections, standing maintenance kept on schedule, and a trusted local presence in the Upper Valley who treats the property as if it were his own. You arrive to a house that has been lived toward, not just locked up.',
     ],
     included: [
       {
@@ -170,8 +134,8 @@ export const SERVICES: Service[] = [
         description: 'Heat, water, power, and security confirmed while you are away — and the first call when weather moves through.',
       },
       {
-        title: 'Standing maintenance',
-        description: 'Filters, softeners, generators, gutters, and the seasonal checklist handled on schedule, not on failure.',
+        title: 'Standing maintenance oversight',
+        description: 'Filters, softeners, generators, gutters, and the seasonal checklist scheduled and verified — on calendar, not on failure.',
       },
       {
         title: 'Arrival & departure readiness',
@@ -187,7 +151,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'infrastructure',
-    number: 'V',
+    number: 'IV',
     title: 'Infrastructure',
     seoTitle: 'Estate Infrastructure & Systems Management, NH',
     metaDescription:
@@ -226,11 +190,11 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'problem-prevention',
-    number: 'VI',
+    number: 'V',
     title: 'Problem Prevention',
-    seoTitle: 'Preventive Property Maintenance & Inspections, NH',
+    seoTitle: 'Preventive Property Management & Inspections, NH',
     metaDescription:
-      'Preventive property maintenance in Plainfield, NH and the Upper Valley. Careful inspections and early intervention that solve problems before they appear — protecting both property and investment.',
+      'Preventive property management in Plainfield, NH and the Upper Valley. Careful inspections and early intervention that solve problems before they appear — protecting both property and investment.',
     summary:
       'Good management often means solving problems before they appear. A careful eye today prevents a larger repair tomorrow.',
     tagline: 'A careful eye today prevents a larger repair tomorrow.',
@@ -249,7 +213,7 @@ export const SERVICES: Service[] = [
       },
       {
         title: 'Early intervention',
-        description: 'The lifted shingle, the damp corner, the hairline crack — addressed while they are still an afternoon’s work.',
+        description: 'The lifted shingle, the damp corner, the hairline crack — caught early and resolved while the fix is still small.',
       },
       {
         title: 'Weather response',
@@ -257,11 +221,50 @@ export const SERVICES: Service[] = [
       },
       {
         title: 'Honest reporting',
-        description: 'What I found, what I did, what can wait, and what shouldn’t — in plain language, with photographs.',
+        description: 'What I found, what was done, what can wait, and what shouldn’t — in plain language, with photographs.',
       },
     ],
     image: landscaping,
     imageAlt: 'Carefully maintained grounds and landscaping on a private property',
+  },
+  {
+    slug: 'project-coordination',
+    number: 'VI',
+    title: 'Project Coordination',
+    seoTitle: 'Estate Project & Vendor Coordination in New Hampshire',
+    metaDescription:
+      'Owner’s representation for estate projects in New Hampshire: renovations, restorations, and improvements planned, budgeted, and supervised from first sketch to final walkthrough.',
+    summary:
+      'Renovations, restorations, and improvements carried from first sketch to final walkthrough — architects, trades, budgets, and timelines managed on your behalf.',
+    tagline: 'Your interests represented in every meeting, every decision, every phase.',
+    intro: [
+      'Every property eventually asks for more than maintenance: a renovation, a restoration, a new structure, a piece of land brought into shape. Projects like these succeed or fail on management — on someone who attends every meeting, questions every estimate, and walks the site when no one expects it.',
+      'I serve as the owner’s representative for that work across New Hampshire’s Upper Valley. Having carried projects from raw land to finished homes, I know what good work looks like at every phase — so architects, engineers, and trades are chosen well, supervised closely, and held to the standard of the property.',
+    ],
+    included: [
+      {
+        title: 'Owner’s representation',
+        description: 'Your interests carried into every meeting with architects, engineers, inspectors, and trades — so you don’t have to be there.',
+      },
+      {
+        title: 'Planning & budgeting',
+        description: 'Scope defined, estimates challenged, and budgets set honestly before the first contract is signed.',
+      },
+      {
+        title: 'Trade selection & supervision',
+        description: 'The right specialists brought in, scheduled, and watched closely — quality checked while it can still be corrected.',
+      },
+      {
+        title: 'Restoration oversight',
+        description: 'Older homes, barns, and outbuildings restored with materials and methods sympathetic to the original — character kept, structure secured.',
+      },
+      {
+        title: 'Documentation & closeout',
+        description: 'Decisions, changes, warranties, and as-built records kept in order, so the project’s knowledge stays with the property.',
+      },
+    ],
+    image: library,
+    imageAlt: 'Finely finished interior of a thoughtfully managed private home',
   },
 ];
 
