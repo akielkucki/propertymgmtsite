@@ -9,10 +9,10 @@
 import type { ImageMetadata } from 'astro';
 import library from '../assets/library.jpg';
 import drive from '../assets/drive.jpg';
-import hale from '../assets/hale.webp';
+import hale from '../assets/landscaping.webp';
 import countryside from '../assets/countryside.jpg';
 import pool from '../assets/pool.webp';
-import landscaping from '../assets/landscaping.webp';
+import landscaping from '../assets/kipahulu.jpg';
 
 export interface Service {
   slug: string;
@@ -225,7 +225,7 @@ export const SERVICES: Service[] = [
       },
     ],
     image: landscaping,
-    imageAlt: 'Carefully maintained grounds and landscaping on a private property',
+    imageAlt: 'Aerial view of a managed estate — home, pool, and carefully cultivated grounds',
   },
   {
     slug: 'project-coordination',

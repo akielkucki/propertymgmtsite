@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import Section from '../../components/Section.astro';
 import Button from '../../components/Button.astro';
-import { SITE } from '../../site';
+import { SITE, AREA_SERVED } from '../../site';
 import { SERVICES } from '../../data/services';
 
 export function getStaticPaths() {
@@ -25,10 +25,7 @@ const schema = [
     description: service.metaDescription,
     url: pageUrl,
     provider: { '@id': new URL('/#business', Astro.site).href },
-    areaServed: [
-      { '@type': 'Place', name: 'Plainfield, NH' },
-      { '@type': 'Place', name: 'Upper Valley, New Hampshire & Vermont' },
-    ],
+    areaServed: [...AREA_SERVED, { '@type': 'Place', name: 'Upper Valley, New Hampshire & Vermont' }],
   },
   {
     '@context': 'https://schema.org',

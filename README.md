@@ -1,4 +1,4 @@
-# Stephen's Property & Estate Services LLC — Website
+# Mark Stephens Estate & Property Management — Website
 
 A marketing site for a private estate and property management company. Old-luxury country-estate
 aesthetic combined with modern Swiss design: strict 12-column grids, editorial serif/grotesque typography
@@ -93,8 +93,8 @@ src/
 
 ## Notes
 
-- **Business name** is defined once in `src/site.ts`. The email address spells *Stephen*, so the site uses
-  "Stephen's Property & Estate Services LLC" — if "Stephans" was intended, change it in that one file.
+- **Business name** is defined once in `src/site.ts` as "Mark Stephens Estate & Property Management",
+  matching the brand logo. Service-area towns (`SERVICE_AREAS`) live in the same file.
 - **Contact form** posts to `/api/contact` (Resend). It shows sending/sent/error states inline and falls
   back to offering the direct `mailto:` address if delivery fails.
 - **Animations** only run when the visitor has not requested reduced motion; content is never hidden for

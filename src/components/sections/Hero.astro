@@ -2,9 +2,10 @@
 import { Image } from 'astro:assets';
 import Button from '../Button.astro';
 import { SITE } from '../../site';
-import heroImage from '../../assets/hero.jpg';
+import heroImage from '../../assets/hero.png';
+import logo from '../../assets/logo.png';
 
-const parts = SITE.shortName.split(' ');
+const parts = SITE.wordmark.split(' ');
 
 /*
   Intro loader choreography (driven by the script below):
@@ -67,6 +68,9 @@ const parts = SITE.shortName.split(' ');
   </div>
 
   <div class="relative z-10 mx-auto w-full  px-6 pt-40 pb-16 md:px-10 lg:px-16 lg:pb-20">
+    <div class="mb-10 inline-flex items-center bg-pearl/95 px-5 py-4 shadow-sm" data-hero-fade>
+      <Image src={logo} alt={SITE.name} width={480} densities={[1, 2]} class="h-10 w-auto md:h-12" loading="eager" />
+    </div>
     <p class="eyebrow mb-8 flex items-center text-white" data-hero-fade>
       <Image src="/assets/icons/location.svg" alt="" width={20} height={20} />&nbsp;&nbsp;Plainfield, New Hampshire
     </p>

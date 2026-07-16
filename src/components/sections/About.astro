@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import Section from '../Section.astro';
 import SectionHeading from '../SectionHeading.astro';
-import libraryImage from '../../assets/library.jpg';
+import headshot from '../../assets/headshot.jpg';
 ---
 
 <Section id="about" class="bg-porcelain py-24 md:py-32 lg:py-40">
@@ -14,14 +14,15 @@ import libraryImage from '../../assets/library.jpg';
     <div class="col-span-12 lg:col-span-5">
       <div class="relative aspect-[4/3] overflow-hidden lg:aspect-[3/4]" data-reveal-scale>
         <Image
-          src={libraryImage}
-          alt="Floor-to-ceiling shelves of well-kept books in a private library"
-          widths={[640, 960, 1440]}
+          src={headshot}
+          alt="Mark Stephens, estate manager and former boat captain"
+          widths={[640, 960]}
           sizes="(min-width: 1024px) 38vw, 100vw"
-          class="h-full w-full object-cover"
+          class="h-full w-full object-cover object-top"
         />
-        <div class="absolute inset-0 bg-sapphire/20 mix-blend-multiply"></div>
       </div>
+      <p class="eyebrow mt-5 text-gold-dark">Mark Stephens</p>
+      <p class="mt-1 text-sm text-ink/60">Owner &amp; Estate Manager</p>
     </div>
 
     <div class="col-span-12 lg:col-span-6 lg:col-start-7" data-reveal>
@@ -31,16 +32,21 @@ import libraryImage from '../../assets/library.jpg';
       </p>
       <div class="mt-8 max-w-xl space-y-6 text-[0.9375rem] leading-relaxed text-ink/70">
         <p>
-          Managing mechanical systems, crews, logistics, and the quiet expectations of ownership taught me
-          discipline, adaptability, and an unwavering attention to detail. I was pursuing a captain&rsquo;s
-          position aboard private yachts when an unexpected opportunity arose on land — a different kind of
-          vessel to steward. What I often call the &ldquo;land yacht&rdquo; became my next chapter.
+          I was born in San Diego into a Navy family and raised on Bainbridge Island, Washington, surrounded by
+          evergreen forests and cold saltwater. The pull of sun and open water eventually carried me to Hawaii,
+          where I found surfing — and where the ocean quietly set the course for everything that followed. I
+          earned my captain&rsquo;s seat at twenty-four, refined my craft at Seattle Maritime Academy, and was
+          pursuing a captain&rsquo;s position aboard private yachts when an unexpected opportunity arose on land
+          — a different kind of vessel to steward. What I often call the &ldquo;land yacht&rdquo; became my next
+          chapter.
         </p>
         <p>
-          Estate and property management felt like a natural evolution. The scale changed, but the principles
-          remained: protection of assets, operational excellence, thoughtful oversight, and hands-on leadership.
-          From full property transformations and ground-up builds to landscape design, budgeting, vendor
-          coordination, and long-term maintenance, I am present in every layer of the work.
+          Back on Maui, estate and property management felt like a natural evolution. For fifteen years I
+          stewarded a vast estate in Kipahulu, Hawai&#699;i, guiding raw land into a thriving botanical
+          sanctuary. The scale changed, but the principles remained: protection of assets, operational
+          excellence, thoughtful oversight, and hands-on leadership. From full property transformations and
+          ground-up builds to landscape design, budgeting, vendor coordination, and long-term maintenance, I am
+          present in every layer of the work.
         </p>
         <p class="font-serif text-lg font-light italic text-ink/80">
           To me, estate management is stewardship — ensuring that beauty, function, and value move in quiet

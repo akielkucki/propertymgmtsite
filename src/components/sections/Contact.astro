@@ -1,7 +1,7 @@
 ---
 import Section from '../Section.astro';
 import Button from '../Button.astro';
-import { SITE } from '../../site';
+import { SITE, SERVICE_AREAS } from '../../site';
 import { SERVICES } from '../../data/services';
 
 // Mirror the service pages so their CTAs can preselect via ?service=<title>.
@@ -16,7 +16,7 @@ const serviceOptions = [...SERVICES.map((s) => s.title), 'General Inquiry'];
           Request Private<br />Estate Support
         </h2>
         <p class="mt-8 max-w-sm font-serif text-lg font-light italic leading-relaxed text-gold-light">
-          From the shores of Hawaii to the hills of New Hampshire.
+          From the waters of Hawaii to the hills of New Hampshire.
         </p>
         <p class="mt-6 max-w-sm text-[0.9375rem] leading-relaxed text-pearl/65">
           Tell me about the property and what it requires. Every inquiry is read personally, answered promptly,
@@ -50,6 +50,18 @@ const serviceOptions = [...SERVICES.map((s) => s.title), 'General Inquiry'];
             <p class="text-[0.9375rem] leading-relaxed text-pearl/75">
               {SITE.address[0]}<br />{SITE.address[1]}
             </p>
+          </div>
+        </div>
+        <div>
+          <p class="field-label mb-3">Service Areas</p>
+          <div class="space-y-2">
+            {
+              SERVICE_AREAS.map((region) => (
+                <p class="max-w-md text-[0.8125rem] leading-relaxed text-pearl/60">
+                  <span class="text-gold-light">{region.state}</span> — {region.towns.join(' · ')}
+                </p>
+              ))
+            }
           </div>
         </div>
       </div>

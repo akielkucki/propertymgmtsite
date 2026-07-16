@@ -2,10 +2,10 @@
 import '../styles/global.css';
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import { SITE } from '../site';
+import { SITE, AREA_SERVED } from '../site';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import heroImage from '../assets/hero.jpg';
+import heroImage from '../assets/hero.png';
 
 interface Props {
   title?: string;
@@ -43,10 +43,7 @@ const localBusiness = {
     postalCode: '03781',
     addressCountry: 'US',
   },
-  areaServed: [
-    { '@type': 'Place', name: 'Plainfield, NH' },
-    { '@type': 'Place', name: 'Upper Valley, New Hampshire & Vermont' },
-  ],
+  areaServed: [...AREA_SERVED, { '@type': 'Place', name: 'Upper Valley, New Hampshire & Vermont' }],
 };
 
 const schemaBlocks = [localBusiness, ...schema];
