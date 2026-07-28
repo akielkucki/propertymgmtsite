@@ -1,0 +1,6 @@
+/node_modules/*
+/.claude/*
+/.idea/*
+/.wrangler/
+/.astro/
+package-lock.json
