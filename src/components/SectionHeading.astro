@@ -1,4 +1,6 @@
 ---
+/** Section masthead: tracked numeral with a trailing rule over a display
+ *  headline — the same two-part structure the hero uses. */
 interface Props {
   number: string;
   tone?: 'light' | 'dark';
@@ -9,14 +11,9 @@ const { number, tone = 'light', class: className = '' } = Astro.props;
 const dark = tone === 'dark';
 ---
 
-<div class={`flex justify-baseline items-start gap-4 ${className}`} data-reveal>
-  <span class={`font-serif text-xl italic ${dark ? 'text-gold-light' : 'text-gold-dark'}`}>
-    {number}
-  </span>
-  <h2
-    class={`max-w-3xl font-serif text-[clamp(2.125rem,4.2vw,3.5rem)] font-light leading-[1.08] tracking-[-0.015em] -translate-y-2 ${dark ? 'text-pearl' : 'text-ink'}`}
-  >
-
+<div class={className} data-reveal>
+  <p class={`eyebrow eyebrow-rule mb-6 ${dark ? 'text-pearl/60' : 'text-ink/50'}`}>{number}</p>
+  <h2 class={`display max-w-3xl text-[clamp(2.125rem,4.4vw,3.75rem)] ${dark ? 'text-pearl' : 'text-ink'}`}>
     <slot />
   </h2>
 </div>

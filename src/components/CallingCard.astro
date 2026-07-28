@@ -1,0 +1,100 @@
+---
+/**
+ * Mark's physical calling card, rendered as a panel beside the inquiry form.
+ *
+ * This is the only component that uses the gold tokens. It reproduces a real
+ * artifact, so the accent is a quotation held inside the card's border — see
+ * the `.calling-card` note in global.css before borrowing gold elsewhere.
+ *
+ * The crest (src/assets/crest.png) was keyed off the card's navy stock, so its
+ * shield interior is transparent and it only reads correctly on a dark field.
+ */
+import { Image } from 'astro:assets';
+import { SITE } from '../site';
+import crest from '../assets/crest.png';
+
+const rows = [
+  { label: 'Telephone', value: SITE.phone, href: SITE.phoneHref, icon: 'phone' },
+  { label: 'Email', value: SITE.email, href: `mailto:${SITE.email}`, icon: 'mail' },
+  { label: 'Address', value: SITE.address.join(', '), href: undefined, icon: 'pin' },
+] as const;
+---
+
+<div class="calling-card overflow-hidden px-7 py-9 sm:px-9 sm:py-11">
+  <!-- Face -->
+  <div class="text-center">
+    <Image src={crest} alt="" width={200} densities={[1, 2]} class="mx-auto h-auto w-20 sm:w-[5.5rem]" />
+    <p class="display mt-6 text-[clamp(1.75rem,5vw,2.375rem)] tracking-[0.2em] text-pearl">STEPHENS</p>
+    <p class="card-rule eyebrow mt-4 text-[0.5625rem] tracking-[0.24em] text-gold-light">
+      Property &amp; Estate Services
+    </p>
+    <p class="eyebrow mt-5 text-[0.5625rem] leading-[1.9] tracking-[0.18em] text-pearl/70">
+      Professional Stewardship.<br class="sm:hidden" /> Complete Peace of Mind.
+    </p>
+  </div>
+
+  <div class="card-divider my-8"><span></span></div>
+
+  <!-- Reverse -->
+  <p class="display text-[1.625rem] text-gold-light">Mark Stephens</p>
+  <p class="eyebrow mt-2 text-pearl/70">Owner</p>
+
+  <div class="card-divider my-7"><span></span></div>
+
+  <ul class="space-y-4">
+    {
+      rows.map((row) => (
+        <li class="flex items-start gap-4">
+          <span class="mt-0.5 shrink-0 text-gold-light" aria-hidden="true">
+            {row.icon === 'phone' && (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <circle cx="12" cy="12" r="10" />
+                <path
+                  d="M9 8.4c0 3.4 2.9 6.3 6.3 6.3l.9-1.7-2.3-.9-.9.9a6 6 0 0 1-2.3-2.3l.9-.9-.9-2.3z"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            )}
+            {row.icon === 'mail' && (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <rect x="2.5" y="5" width="19" height="14" />
+                <path d="m2.5 6 9.5 7 9.5-7" stroke-linejoin="round" />
+              </svg>
+            )}
+            {row.icon === 'pin' && (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M12 22s7-6.3 7-12a7 7 0 1 0-14 0c0 5.7 7 12 7 12z" stroke-linejoin="round" />
+                <circle cx="12" cy="10" r="2.6" />
+              </svg>
+            )}
+          </span>
+          <span class="sr-only">{row.label}: </span>
+          {row.href ? (
+            <a
+              href={row.href}
+              class="text-[0.9375rem] leading-snug break-all text-pearl underline-offset-4 transition-colors duration-300 hover:text-gold-light hover:underline"
+            >
+              {row.value}
+            </a>
+          ) : (
+            <span class="text-[0.9375rem] leading-snug text-pearl/80">{row.value}</span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="card-divider my-7"><span></span></div>
+
+  <p class="eyebrow leading-[1.9] text-gold-light">
+    Protecting Your Property.<br />Simplifying Ownership.
+  </p>
+
+  <!-- Base bar, bled to the card's edges -->
+  <div class="-mx-7 mt-9 border-t border-gold/25 px-7 pt-5 sm:-mx-9 sm:px-9">
+    <p class="eyebrow text-center text-[0.5rem] tracking-[0.2em] text-pearl/55">
+      Serving Vermont <span class="text-gold/70">&#9670;</span> New Hampshire
+      <span class="text-gold/70">&#9670;</span> Northern New England
+    </p>
+  </div>
+</div>

@@ -14,28 +14,31 @@ const dark = tone === 'dark';
 
 const Tag = href ? 'a' : 'article';
 
-const rowClass = `grid grid-cols-12 items-baseline gap-x-6 gap-y-3 border-t py-8 lg:py-10 hover:bg-white group transition-colors duration-200 ${dark ? 'border-pearl/15' : 'border-ink/15'}`;
+// Hover is a quiet tonal lift rather than a colour inversion, so a row never
+// jumps out of the section's palette on the way past.
+const rowClass = [
+  'group grid grid-cols-12 items-baseline gap-x-6 gap-y-3 border-t py-8 transition-colors duration-300 lg:py-10',
+  dark ? 'border-pearl/15 hover:bg-pearl/[0.06]' : 'border-ink/15 hover:bg-ink/[0.04]',
+].join(' ');
 ---
 
 <Tag class={rowClass} href={href} data-reveal-item>
-  <span class={`col-span-12 font-serif text-lg italic md:col-span-1 group-hover:text-black  ${dark ? 'text-gold-light' : 'text-gold-dark'}`}>
+  <span class={`eyebrow col-span-12 md:col-span-1 ${dark ? 'text-pearl/45' : 'text-ink/40'}`}>
     {number}
   </span>
-  <h3
-    class={`col-span-12 font-serif text-2xl font-light leading-snug tracking-[-0.01em] md:col-span-5 lg:col-span-4 group-hover:text-black ${dark ? 'text-pearl' : 'text-ink'}`}
-  >
+  <h3 class={`display-sub col-span-12 text-2xl md:col-span-5 lg:col-span-4 ${dark ? 'text-pearl' : 'text-ink'}`}>
     {title}
     {href && (
       <span
         aria-hidden="true"
-        class={`ml-2 inline-block text-lg transition-transform duration-500 group-hover:translate-x-1.5 ${dark ? 'text-gold-light' : 'text-gold-dark'}`}
+        class={`ml-2 inline-block text-base transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${dark ? 'text-pearl/60' : 'text-ink/45'}`}
       >
-        →
+        ↗
       </span>
     )}
   </h3>
   <p
-    class={`col-span-12 text-[0.9375rem] leading-relaxed md:col-span-6 md:col-start-7 lg:col-span-5 group-hover:text-black  lg:col-start-8 ${dark ? 'text-pearl/65' : 'text-ink/70'}`}
+    class={`col-span-12 text-[0.9375rem] leading-relaxed md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-8 ${dark ? 'text-pearl/65' : 'text-ink/70'}`}
   >
     {description}
   </p>

@@ -1,11 +1,14 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Button from '../Button.astro';
 import { SITE } from '../../site';
-import heroImage from '../../assets/hero.png';
-import logo from '../../assets/logo.png';
+import heroImage from '../../assets/heroframe.png';
 
 const parts = SITE.wordmark.split(' ');
+
+// Poster for the hero video: what reduced-motion visitors see in place of
+// playback, and what covers the first frame until the intro starts it.
+const poster = await getImage({ src: heroImage, width: 1920, format: 'webp' });
 
 /*
   Intro loader choreography (driven by the script below):
@@ -49,51 +52,43 @@ const parts = SITE.wordmark.split(' ');
   </div>
 </div>
 
-<section id="top" class="grain relative flex min-h-svh flex-col justify-end overflow-hidden bg-navy-deep text-pearl">
+<section id="top" class="sticky top-0 flex min-h-svh flex-col justify-end overflow-hidden text-pearl">
   <div class="absolute inset-0 overflow-hidden">
+    <!-- Kept oversized vertically so the loader's image layer and this video
+         share identical geometry at the moment of the crossfade. -->
     <div class="absolute inset-x-0 -inset-y-[16%] will-change-transform" data-hero-media>
-      <Image
-        src={heroImage}
-        alt="A stone country manor surrounded by mature trees, reflected in a still pond"
-        widths={[828, 1280, 1920, 2200]}
-        sizes="100vw"
+      <video
+        data-hero-video
         class="h-full w-full object-cover"
-        loading="eager"
-        fetchpriority="high"
-      />
+        poster={poster.src}
+        muted
+        loop
+        playsinline
+        preload="auto"
+      ><source src="/assets/hero.mp4" type="video/mp4" /></video>
     </div>
-    <div class="hero-scrim absolute inset-0" aria-hidden="true"></div>
-    <div class="hero-vignette absolute inset-0" aria-hidden="true"></div>
-    <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-navy-deep/45 to-transparent" aria-hidden="true"></div>
-  </div>
-
-  <div class="relative z-10 mx-auto w-full  px-6 pt-40 pb-16 md:px-10 lg:px-16 lg:pb-20">
-    <div class="mb-10 inline-flex items-center bg-pearl/95 px-5 py-4 shadow-sm" data-hero-fade>
-      <Image src={logo} alt={SITE.name} width={480} densities={[1, 2]} class="h-10 w-auto md:h-12" loading="eager" />
-    </div>
-    <p class="eyebrow mb-8 flex items-center text-white" data-hero-fade>
-      <Image src="/assets/icons/location.svg" alt="" width={20} height={20} />&nbsp;&nbsp;Plainfield, New Hampshire
-    </p>
-    <h1 class="font-serif text-[clamp(2.75rem,7.2vw,7.75rem)] font-light leading-[1.02] tracking-[-0.02em]">
-      <span class="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
-        <span class="block" data-hero-line>Your Key to</span>
-      </span>
-      <span class="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
-        <span class="block" data-hero-line><em class="italic text-gold-light">Peace of Mind.</em></span>
-      </span>
-    </h1>
-    <div class="mt-12" data-hero-fade>
-      <Button href="#contact" variant="light">Request Private Service</Button>
-    </div>
+    <div class="scrim-bottom absolute inset-0" aria-hidden="true"></div>
+    <div class="scrim-top absolute inset-x-0 top-0 h-44" aria-hidden="true"></div>
+    <!-- Dims the hero as the Positioning card takes over the viewport -->
+    <div class="absolute inset-0 bg-navy-deep opacity-0" aria-hidden="true" data-hero-veil></div>
   </div>
 
   <div
-    class="pointer-events-none absolute top-1/2 right-6 z-10 hidden -translate-y-1/2 flex-col items-center gap-4 md:right-10 lg:flex lg:right-16"
-    aria-hidden="true"
-    data-hero-cue
+    class="relative z-10 mx-auto w-full max-w-[110rem] px-6 pt-40 pb-20 md:px-10 lg:px-14 lg:pb-24"
+    data-hero-content
   >
-    <span class="eyebrow text-[0.625rem] text-pearl/50 [writing-mode:vertical-rl]">Scroll</span>
-    <span class="hero-cue-line relative block h-16 w-px overflow-hidden bg-pearl/20"></span>
+    <p class="eyebrow eyebrow-rule mb-7 text-pearl/85" data-hero-fade>Plainfield, New Hampshire</p>
+    <h1 class="display max-w-[16ch] text-[clamp(2.75rem,7.6vw,8rem)]">
+      <span class="block overflow-hidden pb-[0.18em] -mb-[0.18em]">
+        <span class="block" data-hero-line>Your Key to</span>
+      </span>
+      <span class="block overflow-hidden pb-[0.18em] -mb-[0.18em]">
+        <span class="block" data-hero-line>Peace of Mind.</span>
+      </span>
+    </h1>
+    <div class="mt-11" data-hero-fade>
+      <Button href="#contact" variant="outline-light">Request Private Service</Button>
+    </div>
   </div>
 </section>
 
@@ -219,23 +214,50 @@ const parts = SITE.wordmark.split(' ');
     } finally {
       loader.remove();
       document.body.style.overflow = '';
+      await (document.querySelector('[data-hero-video]') as HTMLVideoElement)?.play();
     }
   }
 
-  // The parallax must register after the intro: while the loader locks body
-  // scrolling, Motion's scroll tracker degenerates and offsets the hero media.
-  function setupParallax() {
+  /*
+    Hand-off to the Positioning card. The hero is pinned while the card slides
+    up over it, so the two are choreographed against the card's own travel
+    rather than the hero's: the media eases in and dims as it is covered, and
+    the copy lifts away early — it sits at the bottom of the frame and is the
+    first thing the card reaches.
+
+    This must register after the intro. While the loader locks body scrolling,
+    Motion's scroll tracker degenerates and mis-measures the range.
+  */
+  function setupHandoff() {
     if (!section) return;
+    const card = document.getElementById('positioning');
+    if (!card) return;
+
     const media = section.querySelector('[data-hero-media]');
+    const veil = section.querySelector('[data-hero-veil]');
+    const content = section.querySelector('[data-hero-content]');
+
     if (media) {
-      scroll(animate(media, { y: ['0%', '0%'] }, { ease: 'linear' }), {
-        target: section,
-        offset: ['start start', 'end start'],
+      scroll(animate(media, { scale: [1, 1.14] }, { ease: 'linear' }), {
+        target: card,
+        offset: ['start end', 'start start'],
+      });
+    }
+    if (veil) {
+      scroll(animate(veil, { opacity: [0, 0.85] }, { ease: 'linear' }), {
+        target: card,
+        offset: ['start end', 'start start'],
+      });
+    }
+    if (content) {
+      scroll(animate(content, { opacity: [1, 0], y: [0, -80] }, { ease: 'linear' }), {
+        target: card,
+        offset: ['start end', 'start center'],
       });
     }
   }
 
   intro().then(() => {
-    if (motionOk) setupParallax();
+    if (motionOk) setupHandoff();
   });
 </script>

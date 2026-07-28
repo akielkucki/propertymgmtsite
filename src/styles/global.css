@@ -1,11 +1,17 @@
 @import 'tailwindcss';
 
 @import '@fontsource-variable/archivo';
-@import '@fontsource-variable/fraunces';
+/* `full` carries the opsz/SOFT/WONK axes as well as wght — the display
+   headline drives opsz to its maximum for didone-grade stroke contrast. */
+@import '@fontsource-variable/fraunces/full.css';
+/* Italics are no longer used decoratively — only `<em>` in running copy — so
+   the lighter wght-only italic build is enough. */
 @import '@fontsource-variable/fraunces/wght-italic.css';
 
 @theme {
-  /* Luxury navy / white / gold palette, drawn from the Stephens crest */
+  /* Navy / white palette drawn from the Stephens crest. The UI is monochrome
+     — hierarchy comes from tone and scale, not hue. The gold and sapphire
+     tokens are kept for the crest itself and are unused in layout. */
   --color-porcelain: #f5f7fa;
   --color-mist: #e8edf5;
   --color-pearl: #fbfcfe;
@@ -47,12 +53,14 @@
   }
 
   ::selection {
-    background-color: var(--color-gold);
+    background-color: var(--color-navy-deep);
     color: var(--color-pearl);
   }
 
+  /* currentColor keeps the ring legible on both the porcelain and navy fields
+     without a second, tone-specific rule. */
   :focus-visible {
-    outline: 2px solid var(--color-gold);
+    outline: 2px solid currentColor;
     outline-offset: 3px;
   }
 
@@ -107,6 +115,36 @@
 }
 
 @layer components {
+  /* Display headline: Fraunces pushed to its largest optical size, where the
+     hairlines thin out and the serifs sharpen — a high-contrast didone voice.
+     SOFT/WONK are zeroed so none of the family's quirk survives. */
+  .display {
+    font-family: var(--font-serif);
+    font-variation-settings:
+      'wght' 400,
+      'opsz' 144,
+      'SOFT' 0,
+      'WONK' 0;
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.018em;
+  }
+
+  /* Same voice at card/row scale. opsz is dialled back deliberately: the
+     display hairlines vanish below ~2rem, so sub-headings need the sturdier
+     optical cut to stay legible. Override `leading-*` for running copy. */
+  .display-sub {
+    font-family: var(--font-serif);
+    font-variation-settings:
+      'wght' 400,
+      'opsz' 32,
+      'SOFT' 0,
+      'WONK' 0;
+    font-weight: 400;
+    line-height: 1.14;
+    letter-spacing: -0.008em;
+  }
+
   /* Small-caps Swiss eyebrow label */
   .eyebrow {
     font-family: var(--font-sans);
@@ -116,16 +154,64 @@
     text-transform: uppercase;
   }
 
-  /* Film-grain veil for photographic sections */
-  .grain::after {
+  /* Eyebrow with the trailing hairline that anchors it to the headline below */
+  .eyebrow-rule::after {
     content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    mix-blend-mode: overlay;
-    opacity: 0.5;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    display: inline-block;
+    width: clamp(2.5rem, 5vw, 4.5rem);
+    height: 1px;
+    margin-left: 1.5rem;
+    vertical-align: middle;
+    background-color: currentColor;
+    opacity: 0.45;
+  }
+
+  /*
+    Calling card — the reproduction of Mark's physical card in the contact
+    section, and the one place gold appears. The accent is quoted inside this
+    border rather than reintroduced sitewide; nothing outside `.calling-card`
+    should reach for the gold tokens.
+  */
+  .calling-card {
+    background-color: color-mix(in srgb, var(--color-navy) 40%, var(--color-navy-deep));
+    border: 1px solid color-mix(in srgb, var(--color-gold) 38%, transparent);
+  }
+
+  /* Subtitle set between two rules, as on the card's face */
+  .card-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .card-rule::before,
+  .card-rule::after {
+    content: '';
+    flex: 1 1 0;
+    height: 1px;
+    background-color: color-mix(in srgb, var(--color-gold) 55%, transparent);
+  }
+
+  /* Hairline broken by a lozenge, the card's section separator */
+  .card-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .card-divider::before,
+  .card-divider::after {
+    content: '';
+    flex: 1 1 0;
+    height: 1px;
+    background-color: color-mix(in srgb, var(--color-gold) 28%, transparent);
+  }
+
+  .card-divider > span {
+    width: 5px;
+    height: 5px;
+    rotate: 45deg;
+    background-color: color-mix(in srgb, var(--color-gold) 75%, transparent);
   }
 
   /* Underline form fields on the dark inquiry panel */
@@ -157,12 +243,12 @@
 
   .field-input:focus {
     outline: none;
-    border-bottom-color: var(--color-gold-light);
+    border-bottom-color: var(--color-pearl);
   }
 
   select.field-input {
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ddbe83' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23fbfcfe' stroke-width='1.5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.25rem center;
     padding-right: 1.75rem;
@@ -173,60 +259,32 @@
     color: var(--color-pearl);
   }
 
-  /* Hero: Ken Burns settle — first paint is already at 1.08, so LCP is never delayed */
-  html.motion-ok .hero-zoom {
-    animation: hero-zoom 2.4s var(--ease-estate) both;
-  }
-
-  @keyframes hero-zoom {
-    from {
-      transform: scale(1.08);
-    }
-    to {
-      transform: scale(1);
-    }
-  }
-
-  /* Hero: eased bottom scrim (multi-stop approximates an ease-out falloff) */
-  .hero-scrim {
+  /* The only gradients in the system. They exist for legibility over
+     photography — neutral black, no colour cast, so the imagery reads as
+     itself rather than as a tinted wash. */
+  .scrim-bottom {
     background: linear-gradient(
       to top,
-      var(--color-navy-deep) 0%,
-      color-mix(in srgb, var(--color-navy-deep) 82%, transparent) 16%,
-      color-mix(in srgb, var(--color-navy-deep) 55%, transparent) 36%,
-      color-mix(in srgb, var(--color-navy-deep) 28%, transparent) 58%,
-      color-mix(in srgb, var(--color-navy-deep) 10%, transparent) 78%,
-      transparent 100%
+      rgb(0 0 0 / 0.7) 0%,
+      rgb(0 0 0 / 0.46) 20%,
+      rgb(0 0 0 / 0.2) 42%,
+      transparent 68%
     );
   }
 
-  /* Hero: soft radial vignette to focus the frame */
-  .hero-vignette {
-    background: radial-gradient(
-      120% 90% at 50% 42%,
-      transparent 45%,
-      color-mix(in srgb, var(--color-navy-deep) 40%, transparent) 100%
+  /* Cap so a fixed header holds against a bright sky */
+  .scrim-top {
+    background: linear-gradient(to bottom, rgb(0 0 0 / 0.42) 0%, transparent 100%);
+  }
+
+  /* For copy set against the left of a full-bleed image */
+  .scrim-left {
+    background: linear-gradient(
+      to right,
+      rgb(0 0 0 / 0.78) 0%,
+      rgb(0 0 0 / 0.55) 34%,
+      rgb(0 0 0 / 0.28) 62%,
+      rgb(0 0 0 / 0.12) 100%
     );
-  }
-
-  /* Hero: scroll-cue line with a repeating gold sweep */
-  html.motion-ok .hero-cue-line::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: var(--color-gold-light);
-    animation: hero-cue 2.8s var(--ease-estate) infinite;
-  }
-
-  @keyframes hero-cue {
-    0% {
-      transform: translateY(-101%);
-    }
-    55% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(101%);
-    }
   }
 }

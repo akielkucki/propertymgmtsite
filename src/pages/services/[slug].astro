@@ -49,24 +49,22 @@ const schema = [
   <Section class="bg-navy-deep pt-40 pb-20 text-pearl md:pt-48 md:pb-28">
     <nav aria-label="Breadcrumb" data-reveal>
       <ol class="eyebrow flex flex-wrap items-center gap-3 text-pearl/50">
-        <li><a href="/" class="transition-colors duration-300 hover:text-gold-light">Home</a></li>
+        <li><a href="/" class="transition-colors duration-300 hover:text-pearl">Home</a></li>
         <li aria-hidden="true">/</li>
-        <li><a href="/#services" class="transition-colors duration-300 hover:text-gold-light">Services</a></li>
+        <li><a href="/#services" class="transition-colors duration-300 hover:text-pearl">Services</a></li>
         <li aria-hidden="true">/</li>
-        <li aria-current="page" class="text-gold-light">{service.title}</li>
+        <li aria-current="page" class="text-pearl">{service.title}</li>
       </ol>
     </nav>
 
-    <div class="mt-14 flex items-start gap-4" data-reveal>
-      <span class="font-serif text-xl italic text-gold-light">{service.number}</span>
-      <h1
-        class="max-w-3xl font-serif text-[clamp(2.5rem,5.5vw,4.25rem)] font-light leading-[1.05] tracking-[-0.015em] -translate-y-2"
-      >
+    <div class="mt-14" data-reveal>
+      <p class="eyebrow eyebrow-rule mb-6 text-pearl/60">{service.number}</p>
+      <h1 class="display max-w-3xl text-[clamp(2.5rem,5.5vw,4.5rem)]">
         {service.seoTitle}
       </h1>
     </div>
 
-    <p class="mt-8 max-w-xl font-serif text-xl font-light italic leading-relaxed text-gold-light" data-reveal>
+    <p class="display-sub mt-8 max-w-xl text-xl leading-relaxed text-pearl/70" data-reveal>
       {service.tagline}
     </p>
   </Section>
@@ -93,9 +91,9 @@ const schema = [
   </Section>
 
   <Section class="bg-navy py-24 text-pearl md:py-32">
-    <div class="flex items-start gap-4" data-reveal>
-      <span class="font-serif text-xl italic text-gold-light">{service.number}</span>
-      <h2 class="max-w-3xl font-serif text-[clamp(2rem,3.6vw,3rem)] font-light leading-[1.08] tracking-[-0.015em] -translate-y-2">
+    <div data-reveal>
+      <p class="eyebrow eyebrow-rule mb-6 text-pearl/60">{service.number}</p>
+      <h2 class="display max-w-3xl text-[clamp(2rem,3.8vw,3.25rem)]">
         What this looks like in practice
       </h2>
     </div>
@@ -103,10 +101,10 @@ const schema = [
     <div class="mt-14 border-b border-pearl/15 lg:mt-20" data-reveal-group>
       {service.included.map((item, i) => (
         <article class="grid grid-cols-12 items-baseline gap-x-6 gap-y-3 border-t border-pearl/15 py-7 lg:py-9" data-reveal-item>
-          <span class="col-span-12 font-serif text-lg italic text-gold-light md:col-span-1">
+          <span class="eyebrow col-span-12 text-pearl/45 md:col-span-1">
             {String(i + 1).padStart(2, '0')}
           </span>
-          <h3 class="col-span-12 font-serif text-xl font-light leading-snug tracking-[-0.01em] text-pearl md:col-span-5 lg:col-span-4">
+          <h3 class="display-sub col-span-12 text-xl text-pearl md:col-span-5 lg:col-span-4">
             {item.title}
           </h3>
           <p class="col-span-12 text-[0.9375rem] leading-relaxed text-pearl/65 md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-8">
@@ -117,17 +115,17 @@ const schema = [
     </div>
 
     <div class="mt-16 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between" data-reveal>
-      <p class="max-w-md font-serif text-lg font-light italic leading-relaxed text-gold-light">
+      <p class="display-sub max-w-md text-lg leading-relaxed text-pearl/70">
         Every property has its particulars. Tell me about yours.
       </p>
-      <Button href={`/?service=${encodeURIComponent(service.title)}#contact`} variant="gold">
+      <Button href={`/?service=${encodeURIComponent(service.title)}#contact`} variant="light">
         Request Private Service
       </Button>
     </div>
   </Section>
 
   <Section class="bg-porcelain py-20 md:py-28">
-    <p class="eyebrow text-gold-dark" data-reveal>Continue exploring</p>
+    <p class="eyebrow eyebrow-rule text-ink/50" data-reveal>Continue exploring</p>
     <div class="mt-10 grid grid-cols-1 gap-px border border-ink/15 bg-ink/15 sm:grid-cols-2 lg:grid-cols-5" data-reveal-group>
       {others.map((s) => (
         <a
@@ -135,12 +133,16 @@ const schema = [
           class="group flex h-full flex-col justify-between gap-10 bg-porcelain p-7 transition-colors duration-300 hover:bg-navy"
           data-reveal-item
         >
-          <span class="font-serif text-lg italic text-gold-dark transition-colors duration-300 group-hover:text-gold-light">
+          <span class="eyebrow text-ink/40 transition-colors duration-300 group-hover:text-pearl/50">
             {s.number}
           </span>
-          <span class="font-serif text-xl font-light leading-snug tracking-[-0.01em] text-ink transition-colors duration-300 group-hover:text-pearl">
+          <span class="display-sub text-xl text-ink transition-colors duration-300 group-hover:text-pearl">
             {s.title}
-            <span aria-hidden="true" class="ml-1.5 inline-block text-base transition-transform duration-500 group-hover:translate-x-1.5">→</span>
+            <span
+              aria-hidden="true"
+              class="ml-1.5 inline-block text-base transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              >↗</span
+            >
           </span>
         </a>
       ))}

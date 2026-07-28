@@ -1,8 +1,11 @@
 ---
+/** The one button language on the site: sentence case, 6px radius, a corner
+ *  arrow that lifts on hover. Deliberately not uppercase — it plays against
+ *  the tracked uppercase micro-labels rather than repeating them. */
 interface Props {
   href?: string;
   type?: 'button' | 'submit';
-  variant?: 'light' | 'dark' | 'gold' | 'outline-light' | 'outline-dark';
+  variant?: 'light' | 'dark' | 'outline-light' | 'outline-dark';
   size?: 'md' | 'sm';
   class?: string;
 }
@@ -10,19 +13,18 @@ interface Props {
 const { href, type = 'button', variant = 'dark', size = 'md', class: className = '' } = Astro.props;
 
 const base =
-  'group inline-flex items-center justify-center gap-3 font-sans font-medium uppercase transition-colors duration-500';
+  'group inline-flex items-center justify-center gap-2.5 rounded-[6px] font-sans transition-colors duration-300';
 
 const sizes: Record<NonNullable<Props['size']>, string> = {
-  md: 'px-8 py-4 text-[0.8125rem] tracking-[0.2em]',
-  sm: 'px-5 py-2.5 text-[0.6875rem] tracking-[0.22em]',
+  md: 'px-6 py-3 text-[0.875rem]',
+  sm: 'px-5 py-2.5 text-[0.8125rem]',
 };
 
 const variants: Record<NonNullable<Props['variant']>, string> = {
-  dark: 'bg-navy text-pearl hover:bg-navy-deep',
-  light: 'bg-pearl text-ink hover:bg-gold-light hover:text-navy-deep',
-  gold: 'bg-gold text-navy-deep hover:bg-gold-light',
-  'outline-light': 'border border-pearl/40 text-pearl hover:border-gold-light hover:text-gold-light',
-  'outline-dark': 'border border-ink/30 text-ink hover:border-gold-dark hover:text-gold-dark',
+  dark: 'bg-navy-deep text-pearl hover:bg-ink',
+  light: 'bg-pearl text-navy-deep hover:bg-white',
+  'outline-light': 'border border-pearl/45 text-pearl hover:border-pearl hover:bg-pearl hover:text-navy-deep',
+  'outline-dark': 'border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-pearl',
 };
 
 const cls = [base, sizes[size], variants[variant], className].filter(Boolean).join(' ');
@@ -32,12 +34,22 @@ const cls = [base, sizes[size], variants[variant], className].filter(Boolean).jo
   href ? (
     <a href={href} class={cls}>
       <slot />
-      <span aria-hidden="true" class="inline-block transition-transform duration-500 group-hover:translate-x-1.5">→</span>
+      <span
+        aria-hidden="true"
+        class="text-[0.8125rem] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      >
+        ↗
+      </span>
     </a>
   ) : (
     <button type={type} class={cls}>
       <slot />
-      <span aria-hidden="true" class="inline-block transition-transform duration-500 group-hover:translate-x-1.5">→</span>
+      <span
+        aria-hidden="true"
+        class="text-[0.8125rem] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      >
+        ↗
+      </span>
     </button>
   )
 }

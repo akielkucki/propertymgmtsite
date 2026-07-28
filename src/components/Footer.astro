@@ -5,6 +5,9 @@ import { SERVICES } from '../data/services';
 import logo from '../assets/logo.png';
 
 const year = new Date().getFullYear();
+
+// Matches the header's two-tone wordmark treatment.
+const [wordmarkLead, ...wordmarkRest] = SITE.wordmark.split(' ');
 ---
 
 <footer class="border-t border-pearl/15 bg-navy-deep text-pearl">
@@ -14,22 +17,24 @@ const year = new Date().getFullYear();
         <div class="inline-block bg-pearl px-5 py-4">
           <Image src={logo} alt={SITE.name} width={480} densities={[1, 2]} class="h-12 w-auto" />
         </div>
-        <p class="mt-6 font-serif text-2xl font-light tracking-[-0.01em]">{SITE.wordmark}</p>
-        <p class="eyebrow mt-2 text-pearl/50">{SITE.wordmarkSub}</p>
+        <p class="mt-7 font-sans text-[0.9375rem] leading-none font-medium tracking-[0.34em] uppercase">
+          <span>{wordmarkLead}</span><span class="pl-[0.34em] text-pearl/55">{wordmarkRest.join(' ')}</span>
+        </p>
+        <p class="eyebrow mt-4 text-pearl/45">{SITE.wordmarkSub}</p>
         <p class="mt-8 max-w-sm text-[0.9375rem] leading-relaxed text-pearl/60">
           My mission is to protect, elevate, and thoughtfully manage the homes and estates entrusted to me.
         </p>
       </div>
 
       <div class="col-span-6 lg:col-span-3 lg:col-start-6">
-        <p class="eyebrow mb-6 text-gold-light">Services</p>
+        <p class="eyebrow mb-6 text-pearl/45">Services</p>
         <ul class="space-y-3">
           {
             SERVICES.map((s) => (
               <li>
                 <a
                   href={`/services/${s.slug}/`}
-                  class="text-[0.8125rem] tracking-[0.18em] uppercase text-pearl/70 transition-colors duration-300 hover:text-gold-light"
+                  class="text-[0.8125rem] tracking-[0.18em] uppercase text-pearl/70 transition-colors duration-300 hover:text-pearl"
                 >
                   {s.title}
                 </a>
@@ -40,14 +45,14 @@ const year = new Date().getFullYear();
       </div>
 
       <div class="col-span-6 lg:col-span-2 lg:col-start-9">
-        <p class="eyebrow mb-6 text-gold-light">Navigate</p>
+        <p class="eyebrow mb-6 text-pearl/45">Navigate</p>
         <ul class="space-y-3">
           {
             NAV_LINKS.map((link) => (
               <li>
                 <a
                   href={link.href}
-                  class="text-[0.8125rem] tracking-[0.18em] uppercase text-pearl/70 transition-colors duration-300 hover:text-gold-light"
+                  class="text-[0.8125rem] tracking-[0.18em] uppercase text-pearl/70 transition-colors duration-300 hover:text-pearl"
                 >
                   {link.label}
                 </a>
@@ -58,15 +63,15 @@ const year = new Date().getFullYear();
       </div>
 
       <div class="col-span-6 lg:col-span-2 lg:col-start-11">
-        <p class="eyebrow mb-6 text-gold-light">Correspondence</p>
+        <p class="eyebrow mb-6 text-pearl/45">Correspondence</p>
         <a
           href={`mailto:${SITE.email}`}
-          class="font-serif text-lg italic break-all text-pearl underline-offset-4 transition-colors duration-300 hover:text-gold-light hover:underline"
+          class="text-[0.9375rem] break-all text-pearl underline-offset-4 transition-colors duration-300 hover:underline"
         >
           {SITE.email}
         </a>
         <p class="mt-4 text-[0.8125rem] leading-relaxed text-pearl/50">
-          <a href={SITE.phoneHref} class="transition-colors duration-300 hover:text-gold-light">{SITE.phone}</a>
+          <a href={SITE.phoneHref} class="transition-colors duration-300 hover:text-pearl">{SITE.phone}</a>
           <br />
           {SITE.address[0]}
           <br />
@@ -76,7 +81,7 @@ const year = new Date().getFullYear();
     </div>
 
     <div class="mt-16 border-t border-pearl/15 pt-8">
-      <p class="eyebrow text-gold-light">Serving the Upper Valley</p>
+      <p class="eyebrow text-pearl/45">Serving the Upper Valley</p>
       <p class="mt-3 max-w-4xl text-xs leading-relaxed text-pearl/50">
         {SERVICE_AREAS.map((region) => region.towns.map((town) => `${town}, ${region.abbr}`).join(' · ')).join(' · ')}
       </p>
@@ -86,7 +91,7 @@ const year = new Date().getFullYear();
       class="mt-10 flex flex-col gap-4 border-t border-pearl/15 pt-8 sm:flex-row sm:items-center sm:justify-between"
     >
       <p class="text-xs tracking-[0.08em] text-pearl/45">© {year} {SITE.name}. All rights reserved.</p>
-      <p class="font-serif text-sm italic text-pearl/45">Beauty, function, and value in quiet harmony.</p>
+      <p class="display-sub text-sm text-pearl/45">Beauty, function, and value in quiet harmony.</p>
     </div>
   </div>
 </footer>

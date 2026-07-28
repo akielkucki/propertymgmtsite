@@ -6,7 +6,7 @@ export const SITE = {
   shortName: "Mark Stephens Estate Management",
   wordmark: "Mark Stephens",
   wordmarkSub: "Estate & Property Management",
-  email: "Stephenestateservices@gmail.com",
+  email: "stephensestateservices@gmail.com",
   phone: "(808) 250-3599",
   phoneHref: "tel:+18082503599",
   address: ["300 Croydon Turnpike", "Plainfield, NH 03781"],
